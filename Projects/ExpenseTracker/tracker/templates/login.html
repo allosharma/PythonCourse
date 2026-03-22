@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Expense Tracker</h1>
+
+<div class="auth-card">
+  <div class="auth-header">
+    <img src="https://i.ibb.co/jfScDTC/budget.png" alt="Expense Tracker" />
+    <div class="auth-header-text">
+      <h2>Sign In</h2>
+      <p>Login to manage your expenses</p>
+    </div>
+  </div>
+
+  <hr class="auth-divider" />
+
+  {% if form.errors %}
+  <ul class="auth-error-list">
+    {% for field in form %}
+      {% for error in field.errors %}
+        <li>{{ error }}</li>
+      {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+      <li>{{ error }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-control">
+      <label for="id_username">Username</label>
+      <input
+        type="text"
+        name="username"
+        placeholder="Enter username..."
+        autocomplete="username"
+      />
+    </div>
+    <div class="form-control">
+      <label for="id_password">Password</label>
+      <input
+        type="password"
+        name="password"
+        placeholder="Enter password..."
+        autocomplete="current-password"
+      />
+    </div>
+    <button class="btn" type="submit">Login</button>
+  </form>
+
+  <p class="auth-footer">
+    Don't have an account? <a href="{% url 'registration' %}">Register</a>
+  </p>
+</div>
+
+{% if messages %}
+{% for message in messages %}
+<script>alert("{{ message }}");</script>
+{% endfor %}
+{% endif %}
+
+{% endblock %}

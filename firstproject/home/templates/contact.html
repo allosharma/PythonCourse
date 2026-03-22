@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block start %}
+
+<h1>Contact Us</h1>
+<a href="/">Home</a>
+<br><br>
+<p>If you have any questions, please feel free to contact us</p>
+
+<form method="post">
+    {% csrf_token %}
+{{ form.as_p }}
+    <button type="submit">Submit</button>
+</form>
+<br><br>
+
+{% if messages %}
+{% for message in messages %}
+ {{ message }}
+{% endfor %}
+{% endif %}
+
+{% endblock %}

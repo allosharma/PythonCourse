@@ -1,0 +1,175 @@
+Script
+
+dict = {'a':1, 'b':2}
+print(dic.get("c")) # This will return None since 'c' does not exist in the dictionary
+if we directly try to fetch any item from the dict which does not exits then it will throw error but get return None in such cases.
+
+
+ORM
+Relationship b/w tables
+One to one field - one item from tbl1 is related to only one item in tbl2
+Foreign Key - tbl1 has a column which is unique and this column is also available in tbl2 using this column we can get data from tbl2
+Many to Many field - one item from tbl1 can be mapped with multiple items in tbl2 and similarly one item from tbl2 can be mapped with multiple items from tbl1.
+
+on_delete = Cascade (It means that if the parent transaction is deleted then the child will also be deleted.)
+E.g.
+tbl1 : Order (order_id, order_date)
+tbl2: invoice (order_id, items list, price)
+so lets say order table is master table and one invoice can have a single order and one order can have a single invoice. What if that one order is deleted from the order table, then the corresponding invoice will also get deleted.
+
+on_delete = Restrict (It means that if you run a query to delete the master transaction then it won't let you delete it, it will ask you to delete the child transaction first then delete the master transaction.)
+
+on_delete = SET_NULL (It will set mapping column id as NULL in child table if you delete the master transaction.)
+
+DB table CRUD queries:
+>> python manage.py shell
+
+# Create Method 1: Author is table name and author_name is only field that is present in the table so to insert new data we can write query as follows: 
+>>Author.objects.create(author_name = 'Alok Sharma')
+
+# Create Method 2: To insert a new data another way is as follows:
+>> author_new_name = 'Alka Sharma'
+>> author_data_insert = Author(author_name = author_new_name)
+or
+>> author_data_insert = Author(author_name = 'Rani Sharma')
+>> author_data_insert.save()
+
+
+# Read Method 1
+>> author_data = Author.objects.all()
+>> author_data = Author.objects.all().order_by('brand_name')
+>> for name in author_data:
+	print(name.author_name)
+
+# Read method 2
+>> author_data = Author.objects.get(id = 2) # fetches only single row of data
+
+
+# Update record
+>> author_data = Author.objects.get(id = 2) #First we have to fetch item which needs to be updated
+>> author_data.author_name = 'The Past Author - Indian' # Update the item
+>> author_data.save() # save the update into the DB
+
+
+# Delete row
+>> author_data = Author.objects.get(id = 2) #First we have to fetch item which needs to be delete
+>> author.delete()
+
+>> Author.objects.all().delete() # It will delete all the transactions from the Author table
+
+
+
+# Foreign Key  CRUD
+>> brand = Brand.objects.get(id = 2)
+>> Products.objects.create(product_name = 'Phone', brand = brand)
+>> Products.objects.create(product_name = 'Phone', brand = Brand.objects.get(id = 1)
+>> Products(product_name = 'IPhone', brand = Brand.objects.get(id = 3)).save()
+>> product = Products.objects.get(id=2)
+>> product # To print the product
+>> product.brand # to print the brand associated with the product
+>> product.brand.country # to print the country name of the brand
+
+
+>> Author.objects.get_or_create(author_name = 'Tejas sharma') # It will either create this record if it is available already then return that data. It returns tuple with True/False to indicate if the value was created or already present in the table.
+
+# For Postgres DB connection
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'mydb',
+        'USER': 'postgres',
+        'PASSWORD': 'password',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
+
+
+FullTextSearch
+
+
+# By default Django provides Django User Model to fetch and validate basic user details like first name, last name, email, password etc.
+# But in modern application we may need additional fields or maybe want to work on this form from scratch. Django provides us with two different classes for that purpose
+# Abstract User: In this you can use the existing Django provided fields and on top of that you can add you own field if would like
+# Abstract Base User: This can be used if you want to do this forma validation and data fetching from scratch.
+
+# Django Signals
+When you are entering a new entry in the db, then before entering and after entering an event is called and that is called signal.
+So basically you can control any action pre or post db entry.
+There are 4 types of signals
+1. pre save signal
+2. post save signal
+3. pre delete signal
+4. post delete signal
+E.g. maybe you can save log or send alert email or anything before or after the db transaction.
+
+
+# GMAIL SMTP Connection, App password can be generated only when 2FA is enabled.
+Django SMTP APP Password for gmail connection: "afoz kzqy yhvd jrus"
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'alok.lauren@gmail.com'
+EMAIL_HOST_PASSWORD = 'afoz kzqy yhvd jrus'
+
+
+
+# Caching
+1. Redis (Redis is not supported on windows - instead we can use "Memurai", it functions same like Redis.)
+2. Memcache
+
+
+# To access elastic search
+start elastic server: "C:\Users\asharma\Documents\Alok\PythonCourse\elasticsearch-9.3.1\bin\elasticsearch.bat"
+on browser: https://localhost:9200/products/_search?q=*:*
+
+
+# Celery
+Celery is like CRON job, it is used to schedule tasks at specific time or when any event is triggered to run in background.
+e.g. lets say you want to wish your user happy birthday at 12am when they have they day, you can use celery to schedule that.
+e.g. lets say you want to download 100's of images or do something which is very CPU intensive, then you cant run that in the main thread of the application so you would like to run this task in the background such that users can do whatever they like in the foreground but in the background it is downloading the files. It makes you app faster and does the job in the background.
+
+Celery has three components to it: Task, Worker, Message Broker (Queue)
+Task: It is the task which needs to be performed
+Worker: It will perform that task.
+Message Broker: It is where the task will be queued, so when it required to run then from here the task will be given to the Worker and then it will get executed. We can use postgres, MySQL or any other database for queueing but they are very slow to work as a message broker so we primarily use "RabbitMQ" or "Redis" as message broker. They are not just fast they are developed for queuing so they have multiple feature complimenting them.
+
+# celery beat
+celery is used to run task in background but beat is used to schedule the task. We can dynamically schedule task using celery beat.
+
+# Rabbit MQ
+It's a queue provider when any event is triggered then you can use to queue some task/work in the queue and then a consumer can then fetch the work items from the queue and process it.
+IN Django to use rabbit mq (connector) we need to use "pika".
+
+# kafka (to download & configure kafka: https://www.youtube.com/watch?v=2wQ2XIy5WDM)
+It like a distributed system which has producer and consumer.
+It is also called as realtime data streaming platform.
+It is way more powerful then web sockets and handle millions of connections at a time.
+Its components are as follows (Lets take example of Zomato ordering food):
+Topic: Zomato can have multiple topics depending on work, for delivery one topic, for notification one topic, so it's like a partiotion of task to be handled.
+Partition: Basically it partition b/w the topics. Each topic can have multiple partition as per requirement.
+Producer: Lets say you have ordered food then delivery boy is the producer as it prodeces the real time location data of the food.
+Consumer: I am the consumer of that data
+Offset: To access each partition from the topic there is a unique sequence number thats offset.
+Broker: 
+Replication
+Retention
+Stream:
+
+zookeeper in kafka is what maintains all the cluster of kafka.
+
+To run kafka: in newer version kafka runs without zookeeper
+>> cd C:\kafka
+>> .\\bin\\windows\\kafka-server-start.bat config\\server.properties
+
+
+
+
+
+
+
+
+
+

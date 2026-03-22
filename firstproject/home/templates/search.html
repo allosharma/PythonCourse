@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+    {% block start %}
+
+    <h1>Search Page</h1>
+    <p>Welcome to the search page. You can search for students and colleges here.</p>
+
+    <div class="container-fluid mt-5">
+
+        {% comment %} Search Bar {% endcomment %}
+        <form>
+            <div class="row">
+                <div class="container col-6">
+                    <input name="search" value="{{ search_query }}" class="text-center form-control" type="text" placeholder="Search Name">
+                </div>
+
+                <div class="container col-6">
+                    {% comment %} <input name="search" value="{{ search_query }}" class="text-center form-control" type="text" placeholder="Search Name"> {% endcomment %}
+                    <select name="select_age">
+                        <option> Select </option>
+                        <option value="1"> 15-20 </option>
+                        <option value="2"> 21-25 </option>
+                        <option value="3"> 26-30 </option>
+                    </select>
+                </div>
+                <button class="btn btn-success mt-3">Search</button>
+            </div>
+            
+        </form>
+        
+
+    <table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Sr No</th>
+      <th scope="col">Name</th>
+      <th scope="col">gender</th>
+      <th scope="col">Age</th>
+      <th scope="col">College</th>
+      <th scope="col">Mobile Number</th>
+      <th scope="col">Email</th>
+    </tr>
+  </thead>
+  {% for student in students %}
+  <tbody>
+    <tr>
+      <th scope="row">{{ forloop.counter }}</th>
+      <td>{{ student.name }}</td>
+      <td>{{ student.gender }}</td>
+      <td>{{ student.age }}</td>
+      <td>{{ student.college }}</td>
+      <td>{{ student.mobile_number }}</td>
+      <td>{{ student.email }}</td>
+    </tr>
+  </tbody>
+  {% endfor %}
+</table>
+</div>
+
+    {% endblock %}

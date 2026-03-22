@@ -1,0 +1,207 @@
+{% extends "base.html" %}
+
+{% block Content %}
+
+<form method="GET">
+
+<div class="container-fluid py-4">
+
+<!-- SEARCH BAR -->
+
+<div class="row justify-content-center mb-4">
+<div class="col-lg-4">
+
+<div class="input-group shadow-sm">
+
+<span class="input-group-text bg-dark text-white">
+🔍
+</span>
+
+<input
+type="text"
+name="search"
+value="{{ search|default:'' }}"
+class="form-control"
+placeholder="Search products...">
+
+<button class="btn btn-dark">
+Search
+</button>
+
+</div>
+
+</div>
+</div>
+
+
+<!-- FILTER CARD -->
+
+<div class="row justify-content-center mb-4">
+<div class="col-lg-8">
+
+<div class="card shadow-sm">
+<div class="card-body">
+
+<div class="row g-3">
+
+<!-- BRAND -->
+
+<div class="col-md-4">
+
+<label class="form-label fw-semibold">Brand</label>
+
+<select
+name="brand"
+class="form-select"
+onchange="this.form.submit()">
+
+<option value="">All Brands</option>
+
+{% for brand in brands %}
+<option value="{{ brand }}"
+{% if brand == selected_brand %}selected{% endif %}>
+{{ brand|title }}
+</option>
+{% endfor %}
+
+</select>
+
+</div>
+
+
+<!-- CATEGORY -->
+
+<div class="col-md-4">
+
+<label class="form-label fw-semibold">Category</label>
+
+<select
+name="category"
+class="form-select"
+onchange="this.form.submit()">
+
+<option value="">All Categories</option>
+
+{% for category in categories %}
+<option value="{{ category }}"
+{% if category == selected_category %}selected{% endif %}>
+{{ category|title }}
+</option>
+{% endfor %}
+
+</select>
+
+</div>
+
+
+<!-- PRICE -->
+
+<div class="col-md-4">
+
+<label class="form-label fw-semibold">
+Max Price: $
+<span id="priceValue">
+{{ max_price|default:5000 }}
+</span>
+</label>
+
+<input
+type="range"
+name="max_price"
+min="0"
+max="5000"
+value="{{ max_price|default:5000 }}"
+class="form-range"
+oninput="priceValue.innerText=this.value"
+>
+
+</div>
+
+</div>
+
+<div class="text-end mt-3">
+
+<button class="btn btn-dark">
+Apply Filters
+</button>
+
+<a href="/" class="btn btn-outline-secondary">
+Reset
+</a>
+
+</div>
+
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+
+</form>
+
+
+
+<!-- PRODUCT TABLE -->
+
+<div class="container-fluid py-2">
+<div class="row justify-content-center">
+<div class="col-lg-10">
+
+<table class="table table-bordered table-hover align-middle">
+
+<thead class="table-dark">
+<tr>
+<th>Title</th>
+<th>Description</th>
+<th>Category</th>
+<th>Price</th>
+<th>Brand</th>
+<th>Thumbnail</th>
+</tr>
+</thead>
+
+<tbody>
+
+{% for product in products %}
+
+<tr>
+
+<td class="fw-semibold">
+{{ product.title }}
+</td>
+
+<td style="max-width:400px;">
+{{ product.description|truncatechars:120 }}
+</td>
+
+<td>
+{{ product.category|title }}
+</td>
+
+<td class="text-success fw-bold">
+${{ product.price }}
+</td>
+
+<td>
+{{ product.brand|title }}
+</td>
+
+<td>
+<img src="{{ product.thumbnail }}" width="80" class="rounded">
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+</div>
+</div>
+
+{% endblock %}

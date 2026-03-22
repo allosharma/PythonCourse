@@ -1,0 +1,14 @@
+elasticsearch-9.3.1/
+__pycache__/
+*.pyc
+.env
+db.sqlite3
+.venv/
+env/
+marimo/_static/
+marimo/_lsp/
+__marimo__/
+*.zip
+*.tar.gz
+*.tgz
+node_modules/

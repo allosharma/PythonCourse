@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+    {% block start %}
+    <h1>Hello👋, World🌏 Welcome to the index page🙋‍♂️</h1>
+    <br>
+    <a href="/contact">Contact</a>
+    <br>
+    <a href="/about">About</a>
+    <br><br>
+    {% for name, age in employees.items %}
+        {% if age <= 30 %}
+        My name is <b>{{ name }}</b> and I am <b>{{ age }}</b> years old. You are young!
+        <br>
+        {% else %}
+        My name is <b>{{ name }}</b> and I am <b>{{ age }}</b> years old. You are older!
+        <br>
+        {% endif %}
+    {% endfor %}
+    
+    {% with total=employees|length %}
+        <p>Total number of employees: {{ total }}</p>
+    {% endwith %}
+
+    {% endblock %}

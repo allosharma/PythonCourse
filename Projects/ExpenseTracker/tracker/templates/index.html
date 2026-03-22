@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Expense Tracker</h1>
+     {% comment %} it will return true or false basis on user logged in or not {% endcomment %}
+    {% if request.user.is_authenticated %}
+    <a href="{% url 'logout' %}">Log Out</a>
+    {% endif %}
+    <div class="container">
+      <div class="header">
+        <img
+          src="https://i.ibb.co/jfScDTC/budget.png"
+          alt="Expense Tracker"
+        />
+        <div class="balance-container">
+          <h2>Your Balance</h2>
+          <h2 id="balance" class="balance">$ {{ Balance }}</h2>
+        </div>
+      </div>
+      <div class="inc-exp-container">
+        <div>
+          <h4>Income</h4>
+          <p id="money-plus" class="money plus">$ {{ Income }}</p>
+        </div>
+        <div>
+          <h4>Expenses</h4>
+          <p id="money-minus" class="money minus">${{ Expense }}</p>
+        </div>
+      </div>
+      <h3>History</h3>
+      {% for transaction in History %}
+        <ul id="list" class="list">
+            <li class= "{% if transaction.amount < 0 %} minus {% else %} plus {% endif %}">
+                {{ transaction.description }} <span>{{ transaction.amount }}</span>
+                <a href = "{% url "deleteTransaction" transaction.uuid %}" class="delete-btn">x</a>
+                {% comment %} <a href="?update={{ transaction.uuid }}" class="update-btn">✒️</a> {% endcomment %}
+              </li>
+        </ul>
+      {% endfor %}
+      {% comment %} <ul id="list" class="list"></ul> {% endcomment %}
+       
+      <h3>Add new transaction</h3>
+      <form id="form" method="post">
+        {% csrf_token %}
+        <div class="form-control">
+          <label for="text">Description</label>
+          <input name="description" type="text" id="text" placeholder="Enter description..." />
+        </div>
+        <div class="form-control">
+          <label for="amount">Amount</label>
+          <input name="amount" type="number" step="any" id="amount" placeholder="Enter amount..." />
+        </div>
+        <button class="btn">Add transaction</button>
+      </form>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification-container" id="notification">
+      <p>Please add a description and amount</p>
+    </div>
+
+{% if messages %}
+{% for message in messages %}
+<script>
+    alert("{{ message }}");
+</script>
+{% endfor %}
+{% endif %}
+
+{% endblock %}

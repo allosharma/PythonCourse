@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Serif+4:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Source Serif 4', Georgia, serif;
+            background-color: #f5f0e8;
+            background-image:
+                radial-gradient(ellipse at 20% 10%, rgba(180,140,80,0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 90%, rgba(120,80,40,0.07) 0%, transparent 50%);
+            min-height: 100vh;
+            padding: 60px 24px;
+            color: #1a1208;
+        }
+
+        .page-wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 52px;
+        }
+
+        .page-header h1 {
+            font-family: 'Playfair Display', 'Times New Roman', serif;
+            font-size: clamp(2.4rem, 5vw, 3.8rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: #1a1208;
+            line-height: 1.1;
+        }
+
+        .page-header .rule {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 18px;
+        }
+
+        .page-header .rule::before,
+        .page-header .rule::after {
+            content: '';
+            height: 1px;
+            width: 80px;
+            background: linear-gradient(to right, transparent, #b8955a);
+        }
+
+        .page-header .rule::after {
+            background: linear-gradient(to left, transparent, #b8955a);
+        }
+
+        .page-header .rule span {
+            font-size: 0.78rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: #b8955a;
+            font-weight: 600;
+        }
+
+        .table-card {
+            background: #fffdf7;
+            border: 1px solid #e2d8c4;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow:
+                0 2px 4px rgba(0,0,0,0.04),
+                0 8px 32px rgba(90,60,20,0.08);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #1a1208;
+        }
+
+        thead th {
+            font-family: 'Source Serif 4', serif;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #c9a96e;
+            padding: 18px 20px;
+            text-align: left;
+        }
+
+        thead th:first-child { width: 52px; text-align: center; }
+        thead th:nth-child(4) { width: 100px; text-align: center; }
+        thead th:last-child { width: 110px; text-align: center; }
+
+        tbody tr {
+            border-bottom: 1px solid #ede5d4;
+            transition: background 0.18s ease;
+        }
+
+        tbody tr:last-child { border-bottom: none; }
+
+        tbody tr:hover { background: #fdf6e8; }
+
+        td, tbody th {
+            padding: 20px 20px;
+            vertical-align: middle;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #2c200e;
+        }
+
+        tbody th {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #b8955a;
+            text-align: center;
+            width: 52px;
+        }
+
+        .news-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1a1208;
+            line-height: 1.35;
+        }
+
+        .news-desc {
+            font-size: 0.88rem;
+            color: #5a4a34;
+            line-height: 1.6;
+        }
+
+        .news-image {
+            display: block;
+            width: 72px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 3px;
+            border: 1px solid #e2d8c4;
+            margin: 0 auto;
+        }
+
+        .image-placeholder {
+            width: 72px;
+            height: 52px;
+            background: #ede5d4;
+            border-radius: 3px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            color: #a08860;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        td:nth-child(4) { text-align: center; }
+        td:nth-child(5) { text-align: center; }
+
+        .read-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #fffdf7;
+            background: #1a1208;
+            padding: 7px 14px;
+            border-radius: 2px;
+            text-decoration: none;
+            transition: background 0.18s, color 0.18s;
+            white-space: nowrap;
+        }
+
+        .read-link:hover {
+            background: #b8955a;
+            color: #fff;
+        }
+
+        .read-link svg {
+            width: 11px; height: 11px;
+            flex-shrink: 0;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #a08860;
+            font-style: italic;
+            font-size: 1.05rem;
+        }
+
+        @media (max-width: 700px) {
+            body { padding: 32px 12px; }
+            thead th:nth-child(3), td:nth-child(3) { display: none; }
+            .read-link span { display: none; }
+            .read-link { padding: 7px 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+
+        <header class="page-header">
+            <h1>Latest News</h1>
+            <div class="rule"><span>Today's Headlines</span></div>
+        </header>
+
+        <div class="table-card">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Poster</th>
+                        <th>Source</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in news %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td><div class="news-title">{{ item.title }}</div></td>
+                        <td><div class="news-desc">{{ item.description|truncatechars:150 }}</div></td>
+                        <td>
+                            {% if item.image %}
+                                <img class="news-image" src="{{ item.image }}" alt="{{ item.title }}">
+                            {% else %}
+                                <div class="image-placeholder">No img</div>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a class="read-link" href="{{ item.external_link }}" target="_blank" rel="noopener">
+                                <span>Read</span>
+                                <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="5" class="empty-state">No news articles found.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</body>
+</html>

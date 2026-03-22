@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Expense Tracker</h1>
+
+<div class="auth-card">
+  <div class="auth-header">
+    <img src="https://i.ibb.co/jfScDTC/budget.png" alt="Expense Tracker" />
+    <div class="auth-header-text">
+      <h2>Create Account</h2>
+      <p>Register to start tracking your expenses</p>
+    </div>
+  </div>
+
+  <hr class="auth-divider" />
+
+  {% if form.errors %}
+  <ul class="auth-error-list">
+    {% for field in form %}
+      {% for error in field.errors %}
+        <li>{{ error }}</li>
+      {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+      <li>{{ error }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-control">
+      <label for="id_username">First Name</label>
+      <input
+        type="text"
+        name="first_name"
+        placeholder="Enter First Name..."
+        autocomplete="username"
+      />
+    </div>
+    <form method="post">
+    {% csrf_token %}
+    <div class="form-control">
+      <label for="id_username">Last Name</label>
+      <input
+        type="text"
+        name="last_name"
+        placeholder="Enter Last Name..."
+        autocomplete="username"
+      />
+    </div>
+    <form method="post">
+    {% csrf_token %}
+    <div class="form-control">
+      <label for="id_username">Username</label>
+      <input
+        type="text"
+        name="username"
+        placeholder="Enter username..."
+        autocomplete="username"
+      />
+    </div>
+    <div class="form-control">
+      <label for="id_email">Email</label>
+      <input
+        type="email"
+        name="email"
+        placeholder="Enter email..."
+        autocomplete="email"
+      />
+    </div>
+    <div class="form-row">
+      <div class="form-control">
+        <label for="id_password1">Password</label>
+        <input
+          type="password"
+          name="password"
+          placeholder="Password..."
+          autocomplete="new-password"
+        />
+      </div>
+    
+    </div>
+    <button class="btn" type="submit">Register</button>
+  </form>
+
+  <p class="auth-footer">
+    Already have an account? <a href="{% url 'login' %}">Sign in</a>
+  </p>
+</div>
+
+{% if messages %}
+{% for message in messages %}
+<script>alert("{{ message }}");</script>
+{% endfor %}
+{% endif %}
+
+{% endblock %}

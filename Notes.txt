@@ -162,10 +162,17 @@ zookeeper in kafka is what maintains all the cluster of kafka.
 
 To run kafka: in newer version kafka runs without zookeeper
 >> cd C:\kafka
+>> $env:CLASSPATH = ""
 >> .\\bin\\windows\\kafka-server-start.bat config\\server.properties
 
+confluent-kafka-python provides a high-level Producer, Consumer and AdminClient compatible with all Apache Kafka brokers 
 
 
+# locust
+To test Django application (heavy load testing)
+
+# Docker
+to build and run the docker the command is: docker-composer up --build
 
 
 

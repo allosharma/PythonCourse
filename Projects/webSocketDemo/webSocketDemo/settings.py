@@ -25,18 +25,22 @@ SECRET_KEY = 'django-insecure-@=5=m7qj)nm%=y+8^k(jcl+a#4%sg#=4%n(vjwh1pipu5m^q@n
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'home',
 ]
 
 MIDDLEWARE = [
@@ -66,7 +70,9 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'webSocketDemo.wsgi.application'
+# WSGI_APPLICATION = 'webSocketDemo.wsgi.application'
+# As we are using stateful protocol for web socket we will be using ASGI
+ASGI_APPLICATION = 'webSocketDemo.asgi.application'
 
 
 # Database
@@ -77,6 +83,22 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+}
+
+# Channel Redis Broker
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels_redis.core.RedisChannelLayer",
+#         "CONFIG": {
+#             "hosts": [("localhost", 6379)],
+#         },
+#     },
+# }
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    },
 }
 
 

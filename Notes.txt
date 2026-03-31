@@ -226,6 +226,15 @@ to run kafka: in newer version kafka runs without zookeeper
 
 
 
+# To run redis channel for web socket
+you can refer the pizza delivery app for details on how to configure settings and consumer and views in order to fetch data from queue to front end.
+Steps to run it is:
+1. Open Docker Desktop and in the terminal run docker cli: docker exec -it redis redis-cli
+2. Then instead of running python maneg.py runserver, you have to run: daphne pizzaDelivery.asgi:application (It runs on 8000 port so if you want to runserver then you can do so on 8001 port)
+3. For testing you can use postman or socketking with ws link.
+
+
+
 
 
 

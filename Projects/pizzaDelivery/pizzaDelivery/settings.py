@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
 INSTALLED_APPS += [
     'home',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -70,7 +71,18 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'pizzaDelivery.wsgi.application'
+# WSGI_APPLICATION = 'pizzaDelivery.wsgi.application'
+
+ASGI_APPLICATION = 'pizzaDelivery.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer', # use channels_redis
+        'CONFIG': {
+            'hosts': [('127.0.0.1', 6379)],
+        },
+    },
+}
 
 
 # Database

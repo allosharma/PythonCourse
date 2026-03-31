@@ -136,8 +136,13 @@ Task: It is the task which needs to be performed
 Worker: It will perform that task.
 Message Broker: It is where the task will be queued, so when it required to run then from here the task will be given to the Worker and then it will get executed. We can use postgres, MySQL or any other database for queueing but they are very slow to work as a message broker so we primarily use "RabbitMQ" or "Redis" as message broker. They are not just fast they are developed for queuing so they have multiple feature complimenting them.
 
-# celery beat
+# Celery beat
 celery is used to run task in background but beat is used to schedule the task. We can dynamically schedule task using celery beat.
+
+# Celery vs Celery Beat:
+Think of Celery as the "worker" and Celery Beat as the "scheduler." They are two separate processes that work together to handle tasks in the background.
+To put it in developer terms: Celery Beat is like a crontab that sends a message to the Celery worker queue at specific times.
+
 
 # Rabbit MQ
 It's a queue provider when any event is triggered then you can use to queue some task/work in the queue and then a consumer can then fetch the work items from the queue and process it.
@@ -173,6 +178,51 @@ To test Django application (heavy load testing)
 
 # Docker
 to build and run the docker the command is: docker-composer up --build
+Now that it is created and now you have made any changes in the model and you want to migrate then the command is:
+docker-compose exec web python manage.py migrate (it will migrate the created image)
+or docker-compose exec web python manage.py shell
+or docker-compose exec web python manage.py makemigration
+
+
+# HTTP connection - stateless, once request response cycle is done then there is no relationship b/w server and client. If client has another request then it will send a new request and will receive new response independent of previous connections. WSGI (Gunicorn) can be used to deploy stateless connection projects.
+# Web Sockets: Client and server stay connected once the connection is made, so new request does not need a new connection, it can use existing connection. It's called stateful connection.
+# In Django to use web sockets we make use of Channels
+	Django Channels uses asynchronous connection, so we can deploy it only using ASGI (Daphini), WSGI is not useful in this case.
+	When we are using web socket then our request line so we will need message broker, we can either use RabbitMQ or Redis for queuing the messages. To add URL, we can either create a new urls.py file and then call it in ASGI or just add the URLS's in the ASGI file itself.
+	urls.py and views.py which we use for WSGI won't work for ASGI. 
+
+
+
+# Github
+
+echo "# PythonCourse" >> README.md
+git init
+git add README.md
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin https://github.com/allosharma/PythonCourse.git
+git push -u origin main
+
+
+git remote add origin https://github.com/allosharma/PythonCourse.git
+git branch -M main
+git push -u origin main
+
+
+git add .
+git commit -m "CommitMessage"
+git push -u origin main
+
+
+# To run kafka Server
+.\bin\windows\kafka-storage.bat random-uuid
+2026-03-20T12:27:42.533064900Z main ERROR Reconfiguration failed: No configuration found for '2c7b84de' at 'null' in 'null'
+tkg4NUgLQOWTKNm5roboew
+
+to run kafka: in newer version kafka runs without zookeeper
+>> cd C:\kafka
+>> .\\bin\\windows\\kafka-server-start.bat config\\server.properties
 
 
 

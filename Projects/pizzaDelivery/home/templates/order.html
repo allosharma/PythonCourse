@@ -1,0 +1,247 @@
+{% extends "base.html" %}
+
+{% block title %}Order {{ order.order_id }} — Pizza App{% endblock %}
+
+{% block extra_head %}
+<style>
+  .order-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 2rem;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .order-card .order-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .order-card .order-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--text);
+  }
+
+  .order-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .order-meta p {
+    font-size: 0.95rem;
+    color: var(--muted);
+  }
+
+  .order-meta p span {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  /* Badge */
+  .badge {
+    display: inline-block;
+    padding: 0.3rem 0.9rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    background: #fff4e0;
+    color: #d97706;
+  }
+  .badge.delivered { background: #e6f9f0; color: #1a9e58; }
+
+  /* Progress */
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+  }
+
+  .progress {
+    background: #ede9e3;
+    border-radius: 99px;
+    height: 12px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+
+  .progress-bar {
+    height: 100%;
+    border-radius: 99px;
+    background: var(--accent);
+    width: 10%;
+    transition: width 0.6s ease, background 0.4s ease;
+    background-size: 30px 30px;
+    animation: stripes 1s linear infinite;
+    background-image: linear-gradient(
+      45deg,
+      rgba(255,255,255,0.15) 25%,
+      transparent 25%,
+      transparent 50%,
+      rgba(255,255,255,0.15) 50%,
+      rgba(255,255,255,0.15) 75%,
+      transparent 75%,
+      transparent
+    );
+  }
+
+  .progress-bar.bg-success {
+    background-color: #1a9e58;
+    animation: none;
+  }
+
+  @keyframes stripes {
+    0%   { background-position: 0 0; }
+    100% { background-position: 30px 0; }
+  }
+
+  /* Status Steps */
+  .steps {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    margin-top: 0.5rem;
+  }
+
+  .steps::before {
+    content: '';
+    position: absolute;
+    top: 12px;
+    left: 0; right: 0;
+    height: 2px;
+    background: var(--border);
+    z-index: 0;
+  }
+
+  .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.72rem;
+    color: var(--muted);
+    z-index: 1;
+    text-align: center;
+    max-width: 70px;
+  }
+
+  .step-dot {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--border);
+    border: 3px solid var(--bg);
+    transition: background 0.4s;
+  }
+
+  .step.active .step-dot  { background: var(--accent); }
+  .step.done .step-dot    { background: #1a9e58; }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="order-card">
+
+  <div class="order-header">
+    <h2 class="order-title">Order Details</h2>
+    <span class="badge" id="status">{{ order.status }}</span>
+  </div>
+
+  <div class="order-meta">
+    <p>Order ID &nbsp;— &nbsp;<span>{{ order.order_id }}</span></p>
+    <p>Pizza &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;— &nbsp;<span>{{ order.pizza.name }}</span></p>
+    <p>Amount &nbsp;&nbsp;— &nbsp;<span>₹ {{ order.amount }}</span></p>
+    <p>Quantity — &nbsp;<span>{{ order.quantity }}</span></p>
+  </div>
+
+  <div class="progress-label">
+    <span>Progress</span>
+    <span id="progress-pct">0%</span>
+  </div>
+
+  <div class="progress">
+    <div
+      class="progress-bar"
+      role="progressbar"
+      aria-valuenow="10"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      style="width: 10%">
+    </div>
+  </div>
+
+  <div class="steps">
+    <div class="step" data-step="Order Recieved">
+      <div class="step-dot"></div>
+      <span>Received</span>
+    </div>
+    <div class="step" data-step="Order in Progress">
+      <div class="step-dot"></div>
+      <span>In Progress</span>
+    </div>
+    <div class="step" data-step="Out for Delivery">
+      <div class="step-dot"></div>
+      <span>Out for Delivery</span>
+    </div>
+    <div class="step" data-step="Delivered">
+      <div class="step-dot"></div>
+      <span>Delivered</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  var order_id = '{{ order.order_id }}'
+  let socket = new WebSocket(`ws://localhost:8000/ws/pizza/${order_id}/`)
+
+  socket.onopen = function(e) {
+    console.log('Connection Established')
+  }
+
+  socket.onmessage = function(e) {
+    var data = JSON.parse(e.data)
+    var value  = data.payload.progress_percentage
+    var status = data.payload.status
+    console.log(value, status)
+    changeUI(value, status)
+  }
+
+  function changeUI(value, status) {
+    var progress_html = document.querySelector('.progress-bar')
+    var status_html   = document.querySelector('#status')
+    var pct_label     = document.querySelector('#progress-pct')
+
+    if (value == 100) {
+      progress_html.classList.add('bg-success')
+      status_html.classList.add('delivered')
+    }
+
+    status_html.innerHTML      = status
+    progress_html.style.width  = value + "%"
+    progress_html.setAttribute('aria-valuenow', value)
+    if (pct_label) pct_label.innerHTML = value + "%"
+
+    // highlight steps
+    const stepOrder = ['Order Recieved','Order in Progress','Out for Delivery','Delivered']
+    const currentIndex = stepOrder.indexOf(status)
+    document.querySelectorAll('.step').forEach((el, i) => {
+      el.classList.remove('active', 'done')
+      if (i < currentIndex)  el.classList.add('done')
+      if (i === currentIndex) el.classList.add('active')
+    })
+  }
+</script>
+
+{% endblock %}

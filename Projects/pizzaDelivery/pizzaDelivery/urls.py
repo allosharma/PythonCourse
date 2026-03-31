@@ -16,11 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from home.views import index, order, order_pizza
+from home.views import index, order, order_pizza, order_status
 
 urlpatterns = [
     path('', index, name='index'),
     path('order/<str:order_id>', order, name='order'),          # ✅ order detail
+    path('order-status/<str:order_id>/', order_status, name='order_status'),
     path('order_pizza/<int:pizza_id>', order_pizza, name='order_pizza'),  # ✅ place order
     path('admin/', admin.site.urls),
 ]

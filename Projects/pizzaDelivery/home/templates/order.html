@@ -1,247 +1,560 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
-{% block title %}Order {{ order.order_id }} — Pizza App{% endblock %}
+{% block title %}
+Order {{ order.order_id }} — Pizza App
+{% endblock %}
 
 {% block extra_head %}
+
 <style>
-  .order-card {
-    background: var(--surface);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 2rem;
-    max-width: 640px;
-    margin: 0 auto;
+.order-shell {
+  max-width: 920px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.order-shell::before,
+.order-shell::after {
+  content: '';
+  position: absolute;
+  inset: auto;
+  border-radius: 999px;
+  filter: blur(10px);
+  pointer-events: none;
+}
+
+.order-shell::before {
+  width: 220px;
+  height: 220px;
+  top: -30px;
+  right: 30px;
+  background: radial-gradient(circle, rgba(224, 61, 47, 0.16), rgba(224, 61, 47, 0));
+}
+
+.order-shell::after {
+  width: 260px;
+  height: 260px;
+  bottom: -70px;
+  left: -40px;
+  background: radial-gradient(circle, rgba(217, 119, 6, 0.12), rgba(217, 119, 6, 0));
+}
+
+.order-card {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.92)),
+    linear-gradient(135deg, rgba(224, 61, 47, 0.06), rgba(245, 158, 11, 0.05));
+  border: 1px solid rgba(224, 221, 216, 0.9);
+  border-radius: 28px;
+  box-shadow: 0 24px 60px rgba(28, 28, 28, 0.08);
+  padding: 2.4rem;
+  overflow: hidden;
+}
+
+.order-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at top left, rgba(224, 61, 47, 0.08), transparent 35%),
+    radial-gradient(circle at bottom right, rgba(26, 158, 88, 0.06), transparent 30%);
+  pointer-events: none;
+}
+
+.order-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.hero-copy {
+  max-width: 520px;
+}
+
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 0.65rem;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.order-title {
+  margin: 0;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  line-height: 1;
+}
+
+.order-subtitle {
+  margin-top: 0.9rem;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.status-card {
+  min-width: 220px;
+  padding: 1rem 1.1rem;
+  border-radius: 22px;
+  background: rgba(255, 248, 240, 0.9);
+  border: 1px solid rgba(245, 208, 142, 0.55);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+.status-card.delivered {
+  background: rgba(236, 253, 245, 0.92);
+  border-color: rgba(52, 211, 153, 0.4);
+}
+
+.status-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.45rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  background: #fff4e0;
+  color: #d97706;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.badge.delivered {
+  background: #e6f9f0;
+  color: #1a9e58;
+}
+
+.status-meta {
+  margin-top: 0.65rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.detail-card {
+  padding: 1rem 1.05rem;
+  border-radius: 20px;
+  background: rgba(250, 248, 244, 0.95);
+  border: 1px solid rgba(224, 221, 216, 0.75);
+}
+
+.detail-label {
+  display: block;
+  margin-bottom: 0.45rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.detail-value {
+  display: block;
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+.progress-panel {
+  padding: 1.5rem;
+  border-radius: 24px;
+  background: rgba(248, 245, 240, 0.92);
+  border: 1px solid rgba(224, 221, 216, 0.72);
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  margin-bottom: 1.1rem;
+}
+
+.progress-label {
+  margin: 0 0 0.35rem;
+  color: var(--muted);
+  font-size: 0.88rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.progress-title {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.progress-value {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--text);
+}
+
+.progress {
+  height: 14px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: linear-gradient(180deg, #eae4dc, #ddd6ce);
+  box-shadow: inset 0 1px 3px rgba(28, 28, 28, 0.08);
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #ff7b54 0%, #e03d2f 100%);
+  box-shadow: 0 10px 24px rgba(224, 61, 47, 0.28);
+  transition: width 0.6s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.progress-bar.bg-success {
+  background: linear-gradient(90deg, #34d399 0%, #1a9e58 100%);
+  box-shadow: 0 10px 24px rgba(26, 158, 88, 0.24);
+}
+
+.steps {
+  --step-size: 52px;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1rem;
+  position: relative;
+  margin-top: 1.8rem;
+}
+
+.steps::before {
+  content: '';
+  position: absolute;
+  top: calc(var(--step-size) / 2 - 1px);
+  left: calc(var(--step-size) / 2);
+  right: calc(var(--step-size) / 2);
+  height: 2px;
+  background: linear-gradient(90deg, rgba(26, 158, 88, 0.14), rgba(224, 221, 216, 0.9));
+  z-index: 0;
+}
+
+.step {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  color: var(--muted);
+}
+
+.step-dot {
+  width: var(--step-size);
+  height: var(--step-size);
+  margin: 0 auto 0.8rem;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #8a8178;
+  border: 1px solid rgba(224, 221, 216, 0.9);
+  background: linear-gradient(180deg, #f5f1eb, #ece6de);
+  box-shadow: 0 10px 24px rgba(28, 28, 28, 0.06);
+  transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.step.active .step-dot {
+  transform: translateY(-3px);
+  color: #ffffff;
+  border-color: transparent;
+  background: linear-gradient(135deg, #ff875f 0%, #e03d2f 100%);
+  box-shadow: 0 16px 30px rgba(224, 61, 47, 0.28);
+}
+
+.step.done .step-dot {
+  color: #ffffff;
+  border-color: transparent;
+  background: linear-gradient(135deg, #34d399 0%, #1a9e58 100%);
+  box-shadow: 0 14px 28px rgba(26, 158, 88, 0.22);
+}
+
+.step-title {
+  display: block;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.step-text {
+  display: block;
+  margin-top: 0.28rem;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.step.active .step-text,
+.step.done .step-text {
+  color: var(--text);
+}
+
+@media (max-width: 900px) {
+  .detail-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .order-card .order-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1.5rem;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-  }
-
-  .order-card .order-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.5rem;
-    color: var(--text);
-  }
-
-  .order-meta {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-bottom: 1.75rem;
-  }
-
-  .order-meta p {
-    font-size: 0.95rem;
-    color: var(--muted);
-  }
-
-  .order-meta p span {
-    color: var(--text);
-    font-weight: 600;
-  }
-
-  /* Badge */
-  .badge {
-    display: inline-block;
-    padding: 0.3rem 0.9rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.3px;
-    background: #fff4e0;
-    color: #d97706;
-  }
-  .badge.delivered { background: #e6f9f0; color: #1a9e58; }
-
-  /* Progress */
-  .progress-label {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.82rem;
-    color: var(--muted);
-    margin-bottom: 0.4rem;
-  }
-
-  .progress {
-    background: #ede9e3;
-    border-radius: 99px;
-    height: 12px;
-    overflow: hidden;
-    margin-bottom: 1.5rem;
-  }
-
-  .progress-bar {
-    height: 100%;
-    border-radius: 99px;
-    background: var(--accent);
-    width: 10%;
-    transition: width 0.6s ease, background 0.4s ease;
-    background-size: 30px 30px;
-    animation: stripes 1s linear infinite;
-    background-image: linear-gradient(
-      45deg,
-      rgba(255,255,255,0.15) 25%,
-      transparent 25%,
-      transparent 50%,
-      rgba(255,255,255,0.15) 50%,
-      rgba(255,255,255,0.15) 75%,
-      transparent 75%,
-      transparent
-    );
-  }
-
-  .progress-bar.bg-success {
-    background-color: #1a9e58;
-    animation: none;
-  }
-
-  @keyframes stripes {
-    0%   { background-position: 0 0; }
-    100% { background-position: 30px 0; }
-  }
-
-  /* Status Steps */
   .steps {
-    display: flex;
-    justify-content: space-between;
-    position: relative;
-    margin-top: 0.5rem;
+    grid-template-columns: repeat(5, minmax(120px, 1fr));
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+  }
+}
+
+@media (max-width: 680px) {
+  .order-card {
+    padding: 1.4rem;
+    border-radius: 22px;
   }
 
-  .steps::before {
-    content: '';
-    position: absolute;
-    top: 12px;
-    left: 0; right: 0;
-    height: 2px;
-    background: var(--border);
-    z-index: 0;
-  }
-
-  .step {
-    display: flex;
+  .order-header,
+  .progress-header {
     flex-direction: column;
-    align-items: center;
-    gap: 0.35rem;
-    font-size: 0.72rem;
-    color: var(--muted);
-    z-index: 1;
-    text-align: center;
-    max-width: 70px;
+    align-items: flex-start;
   }
 
-  .step-dot {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: var(--border);
-    border: 3px solid var(--bg);
-    transition: background 0.4s;
+  .status-card {
+    width: 100%;
+    min-width: 0;
   }
 
-  .step.active .step-dot  { background: var(--accent); }
-  .step.done .step-dot    { background: #1a9e58; }
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .progress-panel {
+    padding: 1.2rem;
+  }
+}
 </style>
+
 {% endblock %}
 
 {% block content %}
 
-<div class="order-card">
+<div class="order-shell">
+  <div class="order-card">
 
-  <div class="order-header">
-    <h2 class="order-title">Order Details</h2>
-    <span class="badge" id="status">{{ order.status }}</span>
-  </div>
+    <div class="order-header">
+      <div class="hero-copy">
+        <span class="eyebrow">Live Order Tracking</span>
+        <h1 class="order-title">Order Details</h1>
+        <p class="order-subtitle" id="status-note">
+          Your order is moving through the kitchen and delivery flow in real time.
+        </p>
+      </div>
 
-  <div class="order-meta">
-    <p>Order ID &nbsp;— &nbsp;<span>{{ order.order_id }}</span></p>
-    <p>Pizza &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;— &nbsp;<span>{{ order.pizza.name }}</span></p>
-    <p>Amount &nbsp;&nbsp;— &nbsp;<span>₹ {{ order.amount }}</span></p>
-    <p>Quantity — &nbsp;<span>{{ order.quantity }}</span></p>
-  </div>
-
-  <div class="progress-label">
-    <span>Progress</span>
-    <span id="progress-pct">0%</span>
-  </div>
-
-  <div class="progress">
-    <div
-      class="progress-bar"
-      role="progressbar"
-      aria-valuenow="10"
-      aria-valuemin="0"
-      aria-valuemax="100"
-      style="width: 10%">
+      <div class="status-card{% if order.status == 'Delivered' %} delivered{% endif %}" id="status-card">
+        <span class="status-label">Current Status</span>
+        <span class="badge{% if order.status == 'Delivered' %} delivered{% endif %}" id="status">{{ order.status }}</span>
+        <p class="status-meta" id="progress-meta">{{ progress_value }}% complete</p>
+      </div>
     </div>
-  </div>
 
-  <div class="steps">
-    <div class="step" data-step="Order Recieved">
-      <div class="step-dot"></div>
-      <span>Received</span>
+    <div class="detail-grid">
+      <div class="detail-card">
+        <span class="detail-label">Order ID</span>
+        <span class="detail-value">{{ order.order_id }}</span>
+      </div>
+      <div class="detail-card">
+        <span class="detail-label">Pizza</span>
+        <span class="detail-value">{{ order.pizza.name }}</span>
+      </div>
+      <div class="detail-card">
+        <span class="detail-label">Total</span>
+        <span class="detail-value">₹ {{ order.amount }}</span>
+      </div>
+      <div class="detail-card">
+        <span class="detail-label">Quantity</span>
+        <span class="detail-value">{{ order.quantity }}</span>
+      </div>
     </div>
-    <div class="step" data-step="Order in Progress">
-      <div class="step-dot"></div>
-      <span>In Progress</span>
-    </div>
-    <div class="step" data-step="Out for Delivery">
-      <div class="step-dot"></div>
-      <span>Out for Delivery</span>
-    </div>
-    <div class="step" data-step="Delivered">
-      <div class="step-dot"></div>
-      <span>Delivered</span>
-    </div>
-  </div>
 
+    <div class="progress-panel">
+      <div class="progress-header">
+        <div>
+          <p class="progress-label">Delivery Progress</p>
+          <h2 class="progress-title" id="progress-step-text">Following your order journey</h2>
+        </div>
+        <span class="progress-value" id="progress-pct">{{ progress_value }}%</span>
+      </div>
+
+      <div class="progress">
+        <div class="progress-bar{% if order.status == 'Delivered' %} bg-success{% endif %}" style="width: {{ progress_value }}%;"></div>
+      </div>
+
+      <div class="steps">
+        <div class="step{% if current_step_index > 0 %} done{% elif current_step_index == 0 %} active{% endif %}" data-step="Order Recieved">
+          <div class="step-dot" data-default="1">1</div>
+          <span class="step-title">Received</span>
+          <span class="step-text">Order confirmed</span>
+        </div>
+        <div class="step{% if current_step_index > 1 %} done{% elif current_step_index == 1 %} active{% endif %}" data-step="Order in Progress">
+          <div class="step-dot" data-default="2">2</div>
+          <span class="step-title">In Progress</span>
+          <span class="step-text">Kitchen is preparing it</span>
+        </div>
+        <div class="step{% if current_step_index > 2 %} done{% elif current_step_index == 2 %} active{% endif %}" data-step="Order Completed">
+          <div class="step-dot" data-default="3">3</div>
+          <span class="step-title">Completed</span>
+          <span class="step-text">Packed and quality checked</span>
+        </div>
+        <div class="step{% if current_step_index > 3 %} done{% elif current_step_index == 3 %} active{% endif %}" data-step="Out for Delivery">
+          <div class="step-dot" data-default="4">4</div>
+          <span class="step-title">Out for Delivery</span>
+          <span class="step-text">On the way to your door</span>
+        </div>
+        <div class="step{% if current_step_index > 4 %} done{% elif current_step_index == 4 %} active{% endif %}" data-step="Delivered">
+          <div class="step-dot" data-default="5">5</div>
+          <span class="step-title">Delivered</span>
+          <span class="step-text">Fresh and ready to enjoy</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <script>
-  var order_id = '{{ order.order_id }}'
-  let socket = new WebSocket(`ws://localhost:8000/ws/pizza/${order_id}/`)
+    const orderId = "{{ order.order_id }}"
+    const initialStatus = "{{ order.status|escapejs }}"
+    const initialProgress = Number("{{ progress_value }}")
+    const statusUrl = "{% url 'order_status' order.order_id %}"
 
-  socket.onopen = function(e) {
-    console.log('Connection Established')
-  }
+    const stepOrder = [
+      'Order Recieved',
+      'Order in Progress',
+      'Order Completed',
+      'Out for Delivery',
+      'Delivered'
+    ]
 
-  socket.onmessage = function(e) {
-    var data = JSON.parse(e.data)
-    var value  = data.payload.progress_percentage
-    var status = data.payload.status
-    console.log(value, status)
-    changeUI(value, status)
-  }
-
-  function changeUI(value, status) {
-    var progress_html = document.querySelector('.progress-bar')
-    var status_html   = document.querySelector('#status')
-    var pct_label     = document.querySelector('#progress-pct')
-
-    if (value == 100) {
-      progress_html.classList.add('bg-success')
-      status_html.classList.add('delivered')
+    const statusDescriptions = {
+      'Order Recieved': 'We have received your order and the kitchen queue is getting it ready.',
+      'Order in Progress': 'Your pizza is being prepared right now with fresh toppings and final touches.',
+      'Order Completed': 'The kitchen has finished your order and it is being packed for dispatch.',
+      'Out for Delivery': 'Your order has left the store and is heading to your delivery address.',
+      'Delivered': 'Your pizza has been delivered. Time to enjoy it while it is hot.'
     }
 
-    status_html.innerHTML      = status
-    progress_html.style.width  = value + "%"
-    progress_html.setAttribute('aria-valuenow', value)
-    if (pct_label) pct_label.innerHTML = value + "%"
+    function updateUI(value, status) {
+      const bar = document.querySelector('.progress-bar')
+      const pct = document.getElementById('progress-pct')
+      const statusEl = document.getElementById('status')
+      const statusCard = document.getElementById('status-card')
+      const progressMeta = document.getElementById('progress-meta')
+      const progressStepText = document.getElementById('progress-step-text')
+      const statusNote = document.getElementById('status-note')
+      const numericValue = Number(value) || 0
 
-    // highlight steps
-    const stepOrder = ['Order Recieved','Order in Progress','Out for Delivery','Delivered']
-    const currentIndex = stepOrder.indexOf(status)
-    document.querySelectorAll('.step').forEach((el, i) => {
-      el.classList.remove('active', 'done')
-      if (i < currentIndex)  el.classList.add('done')
-      if (i === currentIndex) el.classList.add('active')
+      bar.style.width = numericValue + "%"
+      pct.textContent = numericValue + "%"
+      statusEl.textContent = status
+      progressMeta.textContent = numericValue + "% complete"
+      statusNote.textContent = statusDescriptions[status] || 'Your order is moving through the live delivery timeline.'
+      statusEl.classList.toggle('delivered', status === 'Delivered')
+      statusCard.classList.toggle('delivered', status === 'Delivered')
+      bar.classList.toggle('bg-success', status === 'Delivered')
+
+      const index = stepOrder.indexOf(status)
+      const completedSteps = index >= 0 ? index + 1 : 0
+      progressStepText.textContent = `${completedSteps} of ${stepOrder.length} stages completed`
+
+      document.querySelectorAll('.step').forEach((el, i) => {
+        const stepDot = el.querySelector('.step-dot')
+        el.classList.remove('active', 'done')
+        stepDot.textContent = stepDot.dataset.default
+
+        if (i < index) el.classList.add('done')
+        if (i === index) el.classList.add('active')
+        if (i < index) stepDot.textContent = "✓"
+      })
+    }
+
+    // ✅ INITIAL LOAD
+    updateUI(initialProgress, initialStatus)
+
+    // ✅ WEBSOCKET
+    let socket = null
+
+    if ('WebSocket' in window) {
+      try {
+        const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws'
+        socket = new WebSocket(`${wsProtocol}://${window.location.host}/ws/pizza/${orderId}/`)
+
+        socket.onmessage = function(e) {
+          const data = JSON.parse(e.data)
+          const message = data.message || data
+
+          updateUI(
+            message.progress_percentage,
+            message.status
+          )
+        }
+
+        socket.onerror = function(error) {
+          console.error('Order websocket error:', error)
+        }
+      } catch (error) {
+        console.error('Order websocket setup failed:', error)
+      }
+    }
+
+    async function refreshOrderStatus() {
+      try {
+        const response = await fetch(statusUrl, {
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+          }
+        })
+
+        if (!response.ok) {
+          throw new Error(`Status fetch failed: ${response.status}`)
+        }
+
+        const data = await response.json()
+        updateUI(data.progress_percentage, data.status)
+      } catch (error) {
+        console.error('Order status polling error:', error)
+      }
+    }
+
+    const pollInterval = window.setInterval(refreshOrderStatus, 2000)
+
+    window.addEventListener('beforeunload', function() {
+      window.clearInterval(pollInterval)
+      if (socket) {
+        socket.close()
+      }
     })
-  }
 </script>
 
 {% endblock %}

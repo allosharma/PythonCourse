@@ -1,4 +1,5 @@
-Script
+# To create a new virtual environment
+>>python -m venv .venv
 
 dict = {'a':1, 'b':2}
 print(dic.get("c")) # This will return None since 'c' does not exist in the dictionary
@@ -114,6 +115,33 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'alok.lauren@gmail.com'
 EMAIL_HOST_PASSWORD = 'afoz kzqy yhvd jrus'
 
+
+# Media file access
+
+Settings.py
+import os
+
+STATIC_ROOT = 'staticfiles'
+STATIC_URL = '/static/'
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'public/static'),
+]
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'public/media')
+MEDIA_URL = '/media/'
+
+urls.py
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += staticfiles_urlpatterns()
 
 
 # Caching
@@ -244,10 +272,35 @@ to run locust
 
 
 # Project Deployment
+To deploy projects there are two ways (VPS and shared hosting)
+In Shared hosting popular language like PHP is installed by default on the main server and that shared server is distributed among many users, so lets say if PHP is installed then it's frameworks like Laravel can be installed and deploy the project.
+But python not being the popular language it is mostly not installed on most of the shared hosting servers so we prefer VPS like AWS/GCP/Azure, etc. If python is not installed then its framework like Flask, Django won't be able to install on those servers.
+In VPS you can install Python and then it's framework.
+To deploy Django we need Gunicorn(WSGI)/Daphne(ASGI) and nginx(web server, similar to apache - it handles static media file by itself, if any dynamic requests comes then it will pass it to gunicorn/daphne)
+Nginx is also useful for Load Balancer, SSL, Cache, 
 
+Browser(client request) -> Nginx -> Gunicorn -> Django
 
+********************************************************
+AWS
+********************************************************
+# How to deploy Django Project on AWS Server using Gunicorn and Nginx: 
 
+Create an EC2 instance
 
+# To run the AWS instance on local system
+>> cd C:\Users\asharma\.ssh
+>> ssh -i "DjangoKeyPair.pem" ubuntu@54.167.77.136
+
+# Then you can push any new code change to GitHub and then you can apply following commands
+>> cd ~/ProjectDeploy
+>> git pull
+>> cd Demo
+>> source .venv/bin/activate
+>> pip install -r requirements.txt
+>> python manage.py migrate
+>> python manage.py collectstatic --noinput
+>> sudo systemctl restart gunicorn
 
 
 

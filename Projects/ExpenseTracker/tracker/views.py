@@ -1,5 +1,4 @@
 from django.shortcuts import redirect, render
-from tracker.models import Transaction
 from django.contrib import messages
 from django.db.models import Sum, Q
 from django.contrib.auth.models import User
@@ -9,8 +8,6 @@ from django.contrib.auth.decorators import login_required
 import logging
 logger = logging.getLogger(__name__)
 
-
-# Create your views here.
 
 def registration(request):
 

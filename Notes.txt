@@ -174,7 +174,7 @@ To put it in developer terms: Celery Beat is like a crontab that sends a message
 
 # Rabbit MQ
 It's a queue provider when any event is triggered then you can use to queue some task/work in the queue and then a consumer can then fetch the work items from the queue and process it.
-IN Django to use rabbit mq (connector) we need to use "pika".
+In Django to use rabbit mq (connector) we need to use "pika".
 
 # kafka (to download & configure kafka: https://www.youtube.com/watch?v=2wQ2XIy5WDM)
 It like a distributed system which has producer and consumer.
@@ -275,9 +275,9 @@ to run locust
 To deploy projects there are two ways (VPS and shared hosting)
 In Shared hosting popular language like PHP is installed by default on the main server and that shared server is distributed among many users, so lets say if PHP is installed then it's frameworks like Laravel can be installed and deploy the project.
 But python not being the popular language it is mostly not installed on most of the shared hosting servers so we prefer VPS like AWS/GCP/Azure, etc. If python is not installed then its framework like Flask, Django won't be able to install on those servers.
-In VPS you can install Python and then it's framework.
+In VPS you can install Python and then it's frameworks like Django/Flask/FastAPI.
 To deploy Django we need Gunicorn(WSGI)/Daphne(ASGI) and nginx(web server, similar to apache - it handles static media file by itself, if any dynamic requests comes then it will pass it to gunicorn/daphne)
-Nginx is also useful for Load Balancer, SSL, Cache, 
+Nginx is also useful for Load Balancer, SSL, Cache, etc..
 
 Browser(client request) -> Nginx -> Gunicorn -> Django
 

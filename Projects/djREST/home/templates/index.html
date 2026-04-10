@@ -1,0 +1,341 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <main class="page-shell">
+        <header class="page-header">
+            <h1>{{ exam_title }}</h1>
+            <p>Move through one question at a time, mark items for later, and submit when you are ready to see the correct answers and explanations.</p>
+        </header>
+
+        <form id="question-sheet">
+            <div class="layout-grid">
+                <section class="question-panel">
+                    {% for q in questions %}
+                        <section
+                            class="question-card"
+                            data-question-index="{{ forloop.counter0 }}"
+                            data-correct-answer="{{ q.correct_answer }}"
+                            data-review="false"
+                            {% if not forloop.first %}hidden{% endif %}
+                        >
+                            <div class="question-meta">
+                                <span class="question-number">Q{{ q.question_number }}</span>
+                                <span class="question-tag">{{ q.topic }}</span>
+                                <span class="question-tag">{{ q.difficulty }}</span>
+                            </div>
+
+                            <div class="question-text">{{ q.question }}</div>
+
+                            <div class="options-list">
+                                {% for option in q.option_items %}
+                                    <label class="option-row" data-option-key="{{ option.key }}">
+                                        <input type="radio" name="question-{{ q.question_number }}" value="{{ option.key }}">
+                                        <span class="option-key">{{ option.key }}.</span>
+                                        <span>{{ option.text }}</span>
+                                    </label>
+                                {% endfor %}
+                            </div>
+
+                            <div class="feedback" aria-live="polite">
+                                <div class="feedback-message"></div>
+                                <div class="feedback-explanation" hidden>
+                                    <strong>Explanation:</strong>
+                                    <span>{{ q.explanation }}</span>
+                                </div>
+                            </div>
+                        </section>
+                    {% endfor %}
+
+                    <div class="question-actions">
+                        <div class="action-group">
+                            <button type="button" id="previous-question" class="action-button">Previous</button>
+                            <button type="button" id="next-question" class="action-button">Next</button>
+                        </div>
+                        <button type="button" id="mark-review" class="action-button">Check Later</button>
+                    </div>
+                </section>
+
+                <aside class="sidebar-panel">
+                    <h2 class="sidebar-title">Question Navigation</h2>
+                    <div id="question-navigation" class="nav-grid">
+                        {% for q in questions %}
+                            <button
+                                type="button"
+                                class="nav-question{% if forloop.first %} nav-question--active{% endif %}"
+                                data-nav-index="{{ forloop.counter0 }}"
+                                aria-label="Go to question {{ q.question_number }}"
+                            >
+                                {{ q.question_number }}
+                            </button>
+                        {% endfor %}
+                    </div>
+
+                    <div class="sidebar-legend">
+                        <div class="legend-row">
+                            <span class="legend-swatch legend-swatch--current"></span>
+                            <span>Current question</span>
+                        </div>
+                        <div class="legend-row">
+                            <span class="legend-swatch legend-swatch--answered"></span>
+                            <span>Answered</span>
+                        </div>
+                        <div class="legend-row">
+                            <span class="legend-swatch legend-swatch--review"></span>
+                            <span>Check later</span>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-actions">
+                        <button type="button" id="open-submit-dialog" class="action-button action-button--primary">Submit Test</button>
+                        <div id="sheet-summary" class="sheet-summary" aria-live="polite"></div>
+                    </div>
+                </aside>
+            </div>
+        </form>
+
+        <div id="submit-modal-backdrop" class="modal-backdrop" hidden>
+            <div class="submit-modal" role="dialog" aria-modal="true" aria-labelledby="submit-modal-title">
+                <h2 id="submit-modal-title">Submit Test</h2>
+                <p id="submit-modal-message"></p>
+                <div class="modal-actions">
+                    <button type="button" id="cancel-submit" class="action-button">Cancel</button>
+                    <button type="button" id="final-submit" class="action-button action-button--primary">Submit Test</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$", right: "$", display: false},
+                    {left: "$$", right: "$$", display: true}
+                ]
+            });
+
+            const questionCards = Array.from(document.querySelectorAll(".question-card"));
+            const navigationButtons = Array.from(document.querySelectorAll(".nav-question"));
+            const previousButton = document.getElementById("previous-question");
+            const nextButton = document.getElementById("next-question");
+            const reviewButton = document.getElementById("mark-review");
+            const openSubmitDialogButton = document.getElementById("open-submit-dialog");
+            const summary = document.getElementById("sheet-summary");
+            const submitModalBackdrop = document.getElementById("submit-modal-backdrop");
+            const submitModalMessage = document.getElementById("submit-modal-message");
+            const cancelSubmitButton = document.getElementById("cancel-submit");
+            const finalSubmitButton = document.getElementById("final-submit");
+
+            let activeQuestionIndex = 0;
+            let hasSubmitted = false;
+
+            function getSelectedOption(card) {
+                return card.querySelector("input[type='radio']:checked");
+            }
+
+            function isMarkedForReview(card) {
+                return card.dataset.review === "true";
+            }
+
+            function updateNavigationState(index) {
+                const card = questionCards[index];
+                const button = navigationButtons[index];
+                const hasSelection = Boolean(getSelectedOption(card));
+                const reviewMarked = isMarkedForReview(card);
+
+                button.classList.remove("nav-question--answered", "nav-question--review", "nav-question--review-flag");
+
+                if (hasSelection) {
+                    button.classList.add("nav-question--answered");
+                } else if (reviewMarked) {
+                    button.classList.add("nav-question--review");
+                }
+
+                if (reviewMarked) {
+                    button.classList.add("nav-question--review-flag");
+                }
+            }
+
+            function updateAllNavigationStates() {
+                questionCards.forEach(function(_, index) {
+                    updateNavigationState(index);
+                });
+            }
+
+            function updateActionButtons() {
+                previousButton.disabled = activeQuestionIndex === 0;
+                nextButton.disabled = activeQuestionIndex === questionCards.length - 1;
+
+                if (isMarkedForReview(questionCards[activeQuestionIndex])) {
+                    reviewButton.textContent = "Unmark Check Later";
+                    reviewButton.classList.add("action-button--review");
+                } else {
+                    reviewButton.textContent = "Check Later";
+                    reviewButton.classList.remove("action-button--review");
+                }
+            }
+
+            function showQuestion(index) {
+                activeQuestionIndex = index;
+
+                questionCards.forEach(function(card, cardIndex) {
+                    card.hidden = cardIndex !== index;
+                });
+
+                navigationButtons.forEach(function(button, buttonIndex) {
+                    button.classList.toggle("nav-question--active", buttonIndex === index);
+                });
+
+                updateActionButtons();
+            }
+
+            function countAnsweredQuestions() {
+                return questionCards.filter(function(card) {
+                    return Boolean(getSelectedOption(card));
+                }).length;
+            }
+
+            function openSubmitDialog() {
+                const answeredCount = countAnsweredQuestions();
+
+                if (answeredCount < questionCards.length) {
+                    submitModalMessage.textContent = `You have only answered ${answeredCount} questions out of ${questionCards.length}. Do you want to submit the test?`;
+                } else {
+                    submitModalMessage.textContent = `You have answered all ${questionCards.length} questions. Do you want to submit the test?`;
+                }
+
+                submitModalBackdrop.hidden = false;
+            }
+
+            function closeSubmitDialog() {
+                submitModalBackdrop.hidden = true;
+            }
+
+            function gradeQuestion(card) {
+                const correctAnswer = card.dataset.correctAnswer;
+                const selectedOption = getSelectedOption(card);
+                const optionRows = card.querySelectorAll(".option-row");
+                const feedback = card.querySelector(".feedback");
+                const feedbackMessage = card.querySelector(".feedback-message");
+                const explanation = card.querySelector(".feedback-explanation");
+                const correctRow = card.querySelector(`[data-option-key="${correctAnswer}"]`);
+
+                optionRows.forEach(function(row) {
+                    row.classList.remove("option-row--correct", "option-row--wrong");
+                });
+
+                feedback.className = "feedback feedback--visible";
+
+                if (correctRow) {
+                    correctRow.classList.add("option-row--correct");
+                }
+
+                if (!selectedOption) {
+                    feedback.classList.add("feedback--wrong");
+                    feedbackMessage.textContent = `Not answered. Option ${correctAnswer} is the correct answer.`;
+                    explanation.hidden = false;
+                    return false;
+                }
+
+                if (selectedOption.value === correctAnswer) {
+                    feedback.classList.add("feedback--correct");
+                    feedbackMessage.textContent = `Correct. Option ${correctAnswer} is the right answer.`;
+                    explanation.hidden = true;
+                    return true;
+                }
+
+                selectedOption.closest(".option-row").classList.add("option-row--wrong");
+                feedback.classList.add("feedback--wrong");
+                feedbackMessage.textContent = `Incorrect. Option ${correctAnswer} is the correct answer.`;
+                explanation.hidden = false;
+                return false;
+            }
+
+            function submitTest() {
+                let correctCount = 0;
+
+                questionCards.forEach(function(card) {
+                    if (gradeQuestion(card)) {
+                        correctCount += 1;
+                    }
+
+                    card.querySelectorAll("input[type='radio']").forEach(function(input) {
+                        input.disabled = true;
+                    });
+                });
+
+                hasSubmitted = true;
+                reviewButton.disabled = true;
+                openSubmitDialogButton.disabled = true;
+                openSubmitDialogButton.textContent = "Test Submitted";
+                closeSubmitDialog();
+
+                summary.className = "sheet-summary sheet-summary--visible";
+                summary.textContent = `Final result: ${correctCount} out of ${questionCards.length} questions correct.`;
+                showQuestion(activeQuestionIndex);
+            }
+
+            questionCards.forEach(function(card, index) {
+                card.querySelectorAll("input[type='radio']").forEach(function(input) {
+                    input.addEventListener("change", function() {
+                        if (hasSubmitted) {
+                            return;
+                        }
+
+                        updateNavigationState(index);
+                    });
+                });
+            });
+
+            navigationButtons.forEach(function(button) {
+                button.addEventListener("click", function() {
+                    showQuestion(Number(button.dataset.navIndex));
+                });
+            });
+
+            previousButton.addEventListener("click", function() {
+                if (activeQuestionIndex > 0) {
+                    showQuestion(activeQuestionIndex - 1);
+                }
+            });
+
+            nextButton.addEventListener("click", function() {
+                if (activeQuestionIndex < questionCards.length - 1) {
+                    showQuestion(activeQuestionIndex + 1);
+                }
+            });
+
+            reviewButton.addEventListener("click", function() {
+                if (hasSubmitted) {
+                    return;
+                }
+
+                const activeCard = questionCards[activeQuestionIndex];
+                activeCard.dataset.review = String(!isMarkedForReview(activeCard));
+                updateNavigationState(activeQuestionIndex);
+                updateActionButtons();
+            });
+
+            openSubmitDialogButton.addEventListener("click", function() {
+                if (hasSubmitted) {
+                    return;
+                }
+
+                openSubmitDialog();
+            });
+
+            cancelSubmitButton.addEventListener("click", closeSubmitDialog);
+
+            submitModalBackdrop.addEventListener("click", function(event) {
+                if (event.target === submitModalBackdrop) {
+                    closeSubmitDialog();
+                }
+            });
+
+            finalSubmitButton.addEventListener("click", submitTest);
+
+            updateAllNavigationStates();
+            showQuestion(0);
+        });
+    </script>
+{% endblock %}

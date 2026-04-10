@@ -1,0 +1,361 @@
+{
+  "exam_title": "IIT JEE Mock Paper - Physics",
+  "total_questions": 25,
+  "marking_scheme": {
+    "correct": 4,
+    "incorrect": -1,
+    "unattempted": 0
+  },
+  "physics_paper": [
+    {
+      "question_number": 1,
+      "difficulty": "Easy",
+      "topic": "Kinematics",
+      "question": "A projectile is fired from the ground with an initial velocity $v_0$ at an angle $ \\theta$ with the horizontal. At the highest point of its trajectory, the projectile is exploded into two equal fragments. One fragment comes to a complete stop in mid-air. What is the velocity of the second fragment immediately after the explosion?",
+      "options": {
+        "A": "$v_0 \\cos \\theta$",
+        "B": "$2v_0 \\cos \\theta$",
+        "C": "$v_0 \\sin \\theta$",
+        "D": "Zero"
+      },
+      "correct_answer": "B",
+      "explanation": "According to the law of conservation of linear momentum in the horizontal direction: $P_{initial} = P_{final}$. At the highest point, the velocity is $v_0 \\cos \\theta$. Total momentum = $M(v_0 \\cos \\theta)$. After explosion: $M(v_0 \\cos \\theta) = (M/2)(0) + (M/2)v_2$. Solving for $v_2$, we get $v_2 = 2v_0 \\cos \\theta$."
+    },
+    {
+      "question_number": 2,
+      "difficulty": "Moderate",
+      "topic": "Newton's Laws of Motion",
+      "question": "A block of mass $m$ is placed on a smooth wedge of inclination $\\theta$. The wedge is accelerated horizontally with acceleration $a$ such that the block remains stationary relative to the wedge. The value of $a$ is:",
+      "options": {
+        "A": "$g \\tan \\theta$",
+        "B": "$g \\cot \\theta$",
+        "C": "$g \\sin \\theta$",
+        "D": "$g \\cos \\theta$"
+      },
+      "correct_answer": "A",
+      "explanation": "For the block to remain stationary relative to the wedge, the pseudo-force $ma$ must balance the component of gravity along the incline. Therefore, $ma = mg \\tan \\theta$. Thus, $a = g \\tan \\theta$."
+    },
+    {
+      "question_number": 3,
+      "difficulty": "Hard",
+      "topic": "Rotational Mechanics",
+      "question": "A solid cylinder of mass $M$ and radius $R$ rolls without slipping down an inclined plane of angle $\\theta$. If the coefficient of friction is $\\mu$, the minimum value of $\\mu$ required to prevent slipping is:",
+      "options": {
+        "A": "$\\frac{1}{3} \\tan \\theta$",
+        "B": "$\\frac{2}{3} \\tan \\theta$",
+        "C": "$\\frac{1}{7} \\tan \\theta$",
+        "D": "$\\frac{3}{7} \\tan \\theta$"
+      },
+      "correct_answer": "A",
+      "explanation": "For a solid cylinder, $I = \\frac{1}{2}MR^2$. The acceleration is $a = \\frac{g \\sin \\theta}{1 + I/MR^2} = \\frac{2}{3}g \\sin \\theta$. The frictional force required is $f = I\\alpha/R = (\\frac{1}{2}MR^2)(a/R)/R = \\frac{1}{2}Ma = \\frac{1}{3}Mg \\sin \\theta$. Using $f \\le \\mu N$ with $N = Mg \\cos \\theta$, we get $\\frac{1}{3}Mg \\sin \\theta \\le \\mu Mg \\cos \\theta$, so $\\mu \\ge \\frac{1}{3} \\tan \\theta$."
+    },
+    {
+      "question_number": 4,
+      "difficulty": "Easy",
+      "topic": "Work, Energy and Power",
+      "question": "A spring of force constant $k$ is compressed by a distance $x$. The potential energy stored in the spring is:",
+      "options": {
+        "A": "$kx$",
+        "B": "$\\frac{1}{2}kx$",
+        "C": "$\\frac{1}{2}kx^2$",
+        "D": "$kx^2$"
+      },
+      "correct_answer": "C",
+      "explanation": "The work done to compress a spring is $\\int kx dx = \\frac{1}{2}kx^2$. This work is stored as elastic potential energy."
+    },
+    {
+      "question_number": 5,
+      "difficulty": "Moderate",
+      "topic": "Gravitation",
+      "question": "Two spheres of masses $m$ and $M$ are separated by a distance $r$. A third mass $\\mu$ is placed on the line joining them such that the net gravitational force on $\\mu$ is zero. The distance of $\\mu$ from mass $m$ is:",
+      "options": {
+        "A": "$\\frac{\\sqrt{m}r}{\\sqrt{m} + \\sqrt{M}}$",
+        "B": "$\\frac{Mr}{m + M}$",
+        "C": "$\\frac{\\sqrt{M}r}{\\sqrt{m} + \\sqrt{M}}$",
+        "D": "$\\frac{mr}{m + M}$"
+      },
+      "correct_answer": "A",
+      "explanation": "For net force to be zero: $G m \\mu / x^2 = G M \\mu / (r-x)^2$. Taking the square root: $\\sqrt{m}/x = \\sqrt{M}/(r-x)$. Rearranging gives $x(\\sqrt{m} + \\sqrt{M}) = \\sqrt{m}r$, so $x = \\frac{\\sqrt{m}r}{\\sqrt{m} + \\sqrt{M}}$."
+    },
+    {
+      "question_number": 6,
+      "difficulty": "Moderate",
+      "topic": "Fluid Mechanics",
+      "question": "A water tank has a small hole at a depth $h$ below the free surface. The velocity of efflux of water is $v$. If the tank is placed in a lift accelerating upwards with acceleration $a$, the new velocity of efflux will be:",
+      "options": {
+        "A": "$\\sqrt{2gh}$",
+        "B": "$\\sqrt{2(g+a)h}$",
+        "C": "$\\sqrt{2(g-a)h}$",
+        "D": "$v + ah$"
+      },
+      "correct_answer": "B",
+      "explanation": "Using Bernoulli's principle in an accelerating frame, the effective acceleration due to gravity becomes $g_{eff} = g + a$. Therefore, $v = \\sqrt{2g_{eff}h} = \\sqrt{2(g+a)h}$."
+    },
+    {
+      "question_number": 7,
+      "difficulty": "Easy",
+      "topic": "SHM",
+      "question": "A particle is executing simple harmonic motion. At what displacement from the mean position is its kinetic energy equal to its potential energy?",
+      "options": {
+        "A": "$x = A/2$",
+        "B": "$x = A/\\sqrt{2}$",
+        "C": "$x = A$",
+        "D": "$x = A/4$"
+      },
+      "correct_answer": "B",
+      "explanation": "$KE = PE \\implies \\frac{1}{2}k(A^2 - x^2) = \\frac{1}{2}kx^2 \\implies A^2 = 2x^2 \\implies x = A/\\sqrt{2}$."
+    },
+    {
+      "question_number": 8,
+      "difficulty": "Moderate",
+      "topic": "Waves",
+      "question": "A sound wave travels from air to water. Which of the following properties of the wave remains unchanged?",
+      "options": {
+        "A": "Velocity",
+        "B": "Wavelength",
+        "C": "Frequency",
+        "D": "Amplitude"
+      },
+      "correct_answer": "C",
+      "explanation": "Frequency is a property of the source of the wave and does not change when the wave enters a different medium. Velocity and wavelength change according to $v = f\\lambda$."
+    },
+    {
+      "question_number": 9,
+      "difficulty": "Easy",
+      "topic": "Electrostatics",
+      "question": "A point charge $q$ is placed at the center of a cube of side $a$. The electric flux through one face of the cube is:",
+      "options": {
+        "A": "$q/\\epsilon_0$",
+        "B": "$q/6\\epsilon_0$",
+        "C": "$q/3\\epsilon_0$",
+        "D": "Zero"
+      },
+      "correct_answer": "B",
+      "explanation": "Total flux through the cube is $q/\\epsilon_0$ by Gauss Law. Since the charge is at the center, the flux is divided equally among the 6 faces. Flux per face = $q/6\\epsilon_0$."
+    },
+    {
+      "question_number": 10,
+      "difficulty": "Moderate",
+      "topic": "Capacitance",
+      "question": "A parallel plate capacitor is charged and then disconnected from the battery. If a dielectric slab is now inserted between the plates, which of the following remains constant?",
+      "options": {
+        "A": "Capacitance",
+        "B": "Potential Difference",
+        "C": "Charge",
+        "D": "Energy stored"
+      },
+      "correct_answer": "C",
+      "explanation": "Since the capacitor is disconnected from the battery, the charge $Q$ has no path to leave or enter the plates. Therefore, $Q$ remains constant. $C$ increases, $V$ decreases ($V=Q/C$), and Energy decreases ($U=Q^2/2C$)."
+    },
+    {
+      "question_number": 11,
+      "difficulty": "Hard",
+      "topic": "Current Electricity",
+      "question": "In a Wheatstone bridge, the four arms have resistances $P=10\\Omega, Q=10\\Omega, R=10\\Omega$ and $S=11\\Omega$. To balance the bridge, a resistance $x$ is connected in parallel with $S$. The value of $x$ is:",
+      "options": {
+        "A": "$110\\Omega$",
+        "B": "$11\\Omega$",
+        "C": "$1\\Omega$",
+        "D": "$100\\Omega$"
+      },
+      "correct_answer": "A",
+      "explanation": "For balance: $P/Q = R/S_{eq}$. Here $10/10 = 10/S_{eq} \\implies S_{eq} = 10\\Omega$. Since $x$ is in parallel with $S=11\\Omega$: $1/S_{eq} = 1/S + 1/x \\implies 1/10 = 1/11 + 1/x \\implies 1/x = (11-10)/110 = 1/110$. Thus $x = 110\\Omega$."
+    },
+    {
+      "question_number": 12,
+      "difficulty": "Moderate",
+      "topic": "Magnetism",
+      "question": "A proton and an alpha particle enter a uniform magnetic field $B$ perpendicularly with the same kinetic energy. The ratio of the radii of their circular paths ($r_p / r_\\alpha$) is:",
+      "options": {
+        "A": "$1:1$",
+        "B": "$1:2$",
+        "C": "$2:1$",
+        "D": "$1:4$"
+      },
+      "correct_answer": "A",
+      "explanation": "Radius $r = mv/qB = \\sqrt{2mK}/qB$. For proton: $r_p = \\sqrt{2m_p K}/(eB)$. For alpha: $r_\\alpha = \\sqrt{2(4m_p)K}/(2eB) = \\sqrt{2m_p K}/(eB)$. Ratio $r_p / r_\\alpha = 1$."
+    },
+    {
+      "question_number": 13,
+      "difficulty": "Easy",
+      "topic": "EMI",
+      "question": "A metallic rod of length $L$ rotates with angular velocity $\\omega$ in a uniform magnetic field $B$ perpendicular to the plane of rotation. The induced EMF between the ends of the rod is:",
+      "options": {
+        "A": "$BL\\omega$",
+        "B": "$\\frac{1}{2}BL^2\\omega$",
+        "C": "$BL^2\\omega$",
+        "D": "Zero"
+      },
+      "correct_answer": "B",
+      "explanation": "Induced EMF $\\epsilon = \\int (v \\times B) \\cdot dl = \\int_0^L (\\omega r B) dr = \\frac{1}{2}B\\omega L^2$."
+    },
+    {
+      "question_number": 14,
+      "difficulty": "Moderate",
+      "topic": "Alternating Current",
+      "question": "In an LCR series circuit, the voltage across the inductor, capacitor and resistor are $40V, 40V$ and $30V$ respectively. The total voltage of the AC source is:",
+      "options": {
+        "A": "$110V$",
+        "B": "$70V$",
+        "C": "$30V$",
+        "D": "$50V$"
+      },
+      "correct_answer": "C",
+      "explanation": "The total voltage $V = \\sqrt{V_R^2 + (V_L - V_C)^2}$. Here $V_L = 40V$ and $V_C = 40V$, so they cancel each other out. $V = \\sqrt{30^2 + (40-40)^2} = 30V$."
+    },
+    {
+      "question_number": 15,
+      "difficulty": "Easy",
+      "topic": "Thermodynamics",
+      "question": "In an adiabatic process, the relation between pressure $P$ and volume $V$ is $PV^\\gamma = constant$. If the gas is monatomic, the value of $\\gamma$ is:",
+      "options": {
+        "A": "$1.4$",
+        "B": "$1.67$",
+        "C": "$1.33$",
+        "D": "$1.0$"
+      },
+      "correct_answer": "B",
+      "explanation": "For a monatomic gas, $f=3$, so $\\gamma = 1 + 2/f = 1 + 2/3 = 5/3 \\approx 1.67$."
+    },
+    {
+      "question_number": 16,
+      "difficulty": "Moderate",
+      "topic": "Kinetic Theory of Gases",
+      "question": "At what temperature will the average kinetic energy of a gas molecule be double its value at $27^\\circ C$?",
+      "options": {
+        "A": "$54^\\circ C$",
+        "B": "$327^\\circ C$",
+        "C": "$600 K$",
+        "D": "$300 K$"
+      },
+      "correct_answer": "B",
+      "explanation": "$KE = \\frac{3}{2}kT$. If $KE$ is doubled, $T$ must be doubled. $T_1 = 27 + 273 = 300 K$. $T_2 = 2 \\times 300 = 600 K$. In Celsius, $T_2 = 600 - 273 = 327^\\circ C$."
+    },
+    {
+      "question_number": 17,
+      "difficulty": "Hard",
+      "topic": "Thermodynamics",
+      "question": "An ideal gas undergoes a process where $PV^2 = constant$. The molar heat capacity of the gas for this process is:",
+      "options": {
+        "A": "$C_v + R$",
+        "B": "$C_v - R$",
+        "C": "$C_v + 2R$",
+        "D": "$C_v - 2R$"
+      },
+      "correct_answer": "B",
+      "explanation": "For a polytropic process $PV^n = C$, molar heat capacity $C = C_v + R/(1-n)$. Here $n=2$, so $C = C_v + R/(1-2) = C_v - R$."
+    },
+    {
+      "question_number": 18,
+      "difficulty": "Easy",
+      "topic": "Ray Optics",
+      "question": "A convex lens of focal length $f$ is dipped in a liquid of refractive index $\\mu_l$. If the refractive index of the lens material is $\\mu_g$, the new focal length $f'$ is given by:",
+      "options": {
+        "A": "$f' = f(\\mu_g / \\mu_l)$",
+        "B": "$f' = f(\\mu_g - 1)/(\\mu_g/\\mu_l - 1)$",
+        "C": "$f' = f(\\mu_l / \\mu_g)$",
+        "D": "$f' = f$"
+      },
+      "correct_answer": "B",
+      "explanation": "Using Lens Maker's Formula: $1/f = (\\mu_g/\\mu_a - 1)(1/R_1 - 1/R_2)$. In liquid, $1/f' = (\\mu_g/\\mu_l - 1)(1/R_1 - 1/R_2)$. Dividing the two equations gives the result."
+    },
+    {
+      "question_number": 19,
+      "difficulty": "Moderate",
+      "topic": "Wave Optics",
+      "question": "In Young's Double Slit Experiment, if the distance between the slits is halved and the distance between the slits and the screen is doubled, the fringe width becomes:",
+      "options": {
+        "A": "Unchanged",
+        "B": "Double",
+        "C": "Four times",
+        "D": "Half"
+      },
+      "correct_answer": "C",
+      "explanation": "Fringe width $\\beta = \\lambda D / d$. New width $\\beta' = \\lambda (2D) / (d/2) = 4 (\\lambda D / d) = 4\\beta$."
+    },
+    {
+      "question_number": 20,
+      "difficulty": "Moderate",
+      "topic": "Dual Nature of Matter",
+      "question": "The stopping potential for a metal surface is $V_0$ when light of wavelength $\\lambda$ is incident. If light of wavelength $2\\lambda$ is incident, the stopping potential $V_0'$ will be:",
+      "options": {
+        "A": "$V_0' < V_0$",
+        "B": "$V_0' > V_0$",
+        "C": "$V_0' = V_0$",
+        "D": "$V_0' = 2V_0$"
+      },
+      "correct_answer": "A",
+      "explanation": "Stopping potential $eV_0 = hc/\\lambda - \\phi$. As $\\lambda$ increases, the energy of incident photons $hc/\\lambda$ decreases, leading to a lower maximum kinetic energy and thus a smaller stopping potential."
+    },
+    {
+      "question_number": 21,
+      "difficulty": "Easy",
+      "topic": "Atoms",
+      "question": "The ratio of the radius of the second Bohr orbit to the first Bohr orbit for a Hydrogen atom is:",
+      "options": {
+        "A": "$2:1$",
+        "B": "$4:1$",
+        "C": "$1:2$",
+        "D": "$1:4$"
+      },
+      "correct_answer": "B",
+      "explanation": "Bohr radius $r_n \\propto n^2$. Therefore, $r_2 / r_1 = 2^2 / 1^2 = 4/1$."
+    },
+    {
+      "question_number": 22,
+      "difficulty": "Hard",
+      "topic": "Nuclei",
+      "question": "If the mass defect of a nucleus is $\\Delta m$, the binding energy per nucleon for a nucleus with mass number $A$ is:",
+      "options": {
+        "A": "$\\Delta m c^2 / A$",
+        "B": "$\\Delta m / A$",
+        "C": "$\\Delta m c^2$",
+        "D": "$A \\Delta m c^2$"
+      },
+      "correct_answer": "A",
+      "explanation": "Total binding energy $BE = \\Delta m c^2$. Binding energy per nucleon = $BE / A = \\Delta m c^2 / A$."
+    },
+    {
+      "question_number": 23,
+      "difficulty": "Moderate",
+      "topic": "Semiconductors",
+      "question": "In a p-n junction diode, the depletion layer is caused by:",
+      "options": {
+        "A": "Diffusion of holes from n-side to p-side",
+        "B": "Diffusion of electrons from n-side to p-side",
+        "C": "Drift of electrons from p-side to n-side",
+        "D": "None of the above"
+      },
+      "correct_answer": "B",
+      "explanation": "The depletion layer is formed when electrons from the n-type region diffuse into the p-type region and holes from the p-type region diffuse into the n-type region, leaving behind ionized donor and acceptor impurities."
+    },
+    {
+      "question_number": 24,
+      "difficulty": "Moderate",
+      "topic": "Logic Gates",
+      "question": "The output of a NAND gate is '0' only when:",
+      "options": {
+        "A": "Both inputs are '0'",
+        "B": "One input is '0' and other is '1'",
+        "C": "Both inputs are '1'",
+        "D": "Any one input is '0'"
+      },
+      "correct_answer": "C",
+      "explanation": "A NAND gate is the inverse of an AND gate. AND gives '1' only when both inputs are '1'. Thus, NAND gives '0' only when both inputs are '1'."
+    },
+    {
+      "question_number": 25,
+      "difficulty": "Moderate",
+      "topic": "Fluid Statics",
+      "question": "A cylindrical vessel containing liquid is rotated about its vertical axis with angular velocity $\\omega$. The shape of the free surface of the liquid will be:",
+      "options": {
+        "A": "Spherical",
+        "B": "Paraboloidal",
+        "C": "Planar",
+        "D": "Hyperboloidal"
+      },
+      "correct_answer": "B",
+      "explanation": "The pressure gradient in the radial direction is $\\partial P/\\partial r = \\rho \\omega^2 r$ and in the vertical direction $\\partial P/\\partial z = -\\rho g$. Solving these leads to the equation of the surface: $z = (\\omega^2 r^2 / 2g) + constant$, which is a parabola."
+    }
+  ]
+}

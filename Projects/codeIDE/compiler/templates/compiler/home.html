@@ -1,0 +1,110 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeIDE | Python Playground</title>
+    <link rel="stylesheet" href="{% static 'compiler/compiler.css' %}">
+</head>
+<body data-run-url="{% url 'compiler:run_code' %}">
+    <main class="shell">
+        <section class="hero">
+            <div class="hero-copy">
+                <p class="eyebrow">Django-Powered Online Compiler</p>
+                <h1>Python Playground</h1>
+                <p class="hero-text">
+                    Write Python in the browser, run it on demand, and inspect the output
+                    instantly without leaving the page.
+                </p>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-card">
+                    <span class="stat-label">Language</span>
+                    <strong>Python 3</strong>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Runtime limit</span>
+                    <strong>{{ execution_timeout }} seconds</strong>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Experience</span>
+                    <strong>Editor + Console</strong>
+                </div>
+            </div>
+        </section>
+
+        <section class="workspace">
+            <section class="panel editor-panel">
+                <div class="panel-header">
+                    <div>
+                        <p class="panel-kicker">Source</p>
+                        <h2>main.py</h2>
+                    </div>
+                    <div class="panel-actions">
+                        <button class="ghost-button" id="sample-btn" type="button">Reset sample</button>
+                        <button class="primary-button" id="run-btn" type="button">Run code</button>
+                    </div>
+                </div>
+
+                <label class="sr-only" for="code-editor">Python code editor</label>
+                <textarea id="code-editor" spellcheck="false">{{ starter_code }}</textarea>
+
+                <div class="panel-footer">
+                    <span>Shortcut: Ctrl + Enter</span>
+                    <span>Isolated subprocess execution</span>
+                </div>
+            </section>
+
+            <section class="side-column">
+                <section class="panel input-panel">
+                    <div class="panel-header">
+                        <div>
+                            <p class="panel-kicker">Input</p>
+                            <h2>stdin</h2>
+                        </div>
+                    </div>
+
+                    <label class="sr-only" for="stdin-editor">Program input</label>
+                    <textarea id="stdin-editor" spellcheck="false" placeholder="Optional input for input() calls"></textarea>
+                </section>
+
+                <section class="panel output-panel">
+                    <div class="panel-header">
+                        <div>
+                            <p class="panel-kicker">Result</p>
+                            <h2>Output Console</h2>
+                        </div>
+                        <button class="ghost-button" id="clear-output-btn" type="button">Clear</button>
+                    </div>
+
+                    <div class="output-meta">
+                        <span class="meta-pill" data-state="idle" id="status-pill">Ready</span>
+                        <span class="meta-pill meta-pill-muted" id="duration-pill">0 ms</span>
+                    </div>
+
+                    <pre id="output-console">Press "Run code" to execute your Python script.</pre>
+                </section>
+            </section>
+        </section>
+
+        <section class="notes">
+            <article class="note-card">
+                <h3>How it works</h3>
+                <p>The Django backend writes your code to a temporary file, runs it in a separate Python process, and streams back stdout and errors.</p>
+            </article>
+            <article class="note-card">
+                <h3>Helpful extras</h3>
+                <p>You can pass interactive input through the stdin panel and use Ctrl + Enter to run without touching the mouse.</p>
+            </article>
+            <article class="note-card">
+                <h3>Current scope</h3>
+                <p>This is built for Python only and uses basic isolation with a timeout, which is suitable for local development but not a hardened production sandbox.</p>
+            </article>
+        </section>
+    </main>
+
+    {{ starter_code|json_script:"starter-code" }}
+    <script src="{% static 'compiler/compiler.js' %}"></script>
+</body>
+</html>

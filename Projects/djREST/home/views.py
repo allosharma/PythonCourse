@@ -36,6 +36,8 @@ def homePage(request):
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+from .serializer import StudentSerializer, BookSerializer
+
 # DRF API view for the API endpoint
 @api_view(['GET', 'POST', 'PUT', 'DELETE', 'PATCH'])
 def apiHome(request):
@@ -58,28 +60,42 @@ from home.models import Student
 def create_api_record(request):
     if request.method == 'POST':
         # print(request.data)  # You can access the posted data here
-        name = request.data.get('name')
-        dob = request.data.get('dob')
-        email = request.data.get('email')
-        phone_number = request.data.get('phone_number')
-        student = Student(name=name, dob=dob, email=email, phone_number=phone_number)
-        student.save()
-        return Response({
-            "message": "Record created successfully!",
-            'status': "success",
-            "student": {
-                "name": student.name,
-                "dob": student.dob,
-                "email": student.email,
-                "phone_number": student.phone_number,
-            }
-            }
-        )
-    return Response({"error": "Invalid request method."}, status=400)
+        # name = request.data.get('name')
+        # dob = request.data.get('dob')
+        # email = request.data.get('email')
+        # phone_number = request.data.get('phone_number')
+        serializer = StudentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
+
+    # if request.method == 'POST':
+    #     student = Student(name=name, dob=dob, email=email, phone_number=phone_number)
+    #     student.save()
+    #     return Response({
+    #         "message": "Record created successfully!",
+    #         'status': "success",
+    #         "student": {
+    #             "name": student.name,
+    #             "dob": student.dob,
+    #             "email": student.email,
+    #             "phone_number": student.phone_number,
+    #         }
+    #         }
+    #     )
+    # return Response({"error": "Invalid request method."}, status=400)
+
 
 
 @api_view(['GET'])
 def get_students(request):
+    students = Student.objects.all().order_by('id')
+    student_data = [StudentSerializer(student).data for student in students]
+    return Response({"students": student_data})
+
+@api_view(['GET'])
+def get_students_normal(request):
     students = Student.objects.all().order_by('id')
     student_data = [
         {
@@ -102,3 +118,20 @@ def delete_student(request, student_id):
         return Response({"message": "Student deleted successfully."})
     except Student.DoesNotExist:
         return Response({"error": "Student not found."}, status=404)
+    
+    
+@api_view(['PATCH'])
+def update_student(request, student_id):
+    try:
+        student = Student.objects.get(id=student_id)
+        serializer = StudentSerializer(student, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                "message": "Student updated successfully.",
+                "student": serializer.data,
+                "status": "success",
+            })
+        return Response(serializer.errors, status=400)
+    except Student.DoesNotExist:
+        return Response({"error": "Student not found."}, status=404)    

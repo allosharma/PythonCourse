@@ -352,8 +352,13 @@ PATCH: When you want to partially update the data in the backend from client/fro
 DELETE: Delete any entry in the backend from client/frontend.
 
 
-
-
+DRF Serializer:
+Converts data from one format to another: Here it converts queryset to JSON. Also it inserts data from frontend to DB.
+Serializer is of multiple type:
+1. Basic Serializer: You have to build everything from scratch (fields, method).
+2. Model Serializer: It connects to any model and all the fields from model is copied into the Serializer.
+3. Hyperlink Serializer: In case of any foreign key, instead of returning the value, it return hyperlink to access the value.
+4. List Serializer: It uses list to create Serializer.
 
 
 

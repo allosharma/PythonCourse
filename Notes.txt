@@ -327,6 +327,34 @@ Remember to keep this command running while you are working on the project as an
 
 
 
+********************************************************
+Steps to use Django Rest Framework (DRF)
+********************************************************
+# Install Django and Django REST framework into the virtual environment
+pip install djangorestframework
+
+In setting.py in the installed app, add 'rest_framework' on the bottom before adding any new apps.
+
+In the views.py file, you have to import drf and also use decorator as follows:
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+@api_view()
+def index(request)
+	pass
+
+API Methods or HTTP Methods
+GET: Fetch data from backend to frontend/client.
+POST: Create a new entry in backend from client/frontend.
+PUT: When you want to update the existing data in the backend from client/frontend.
+PATCH: When you want to partially update the data in the backend from client/frontend.
+DELETE: Delete any entry in the backend from client/frontend.
+
+
+
+
+
 
 
 

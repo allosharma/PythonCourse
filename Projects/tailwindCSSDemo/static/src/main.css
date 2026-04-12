@@ -1,2 +1,34 @@
 @import "tailwindcss";
+
+/* 1. Tell Tailwind where to look for your HTML classes */
 @source "../../home/templates/**/*.html";
+
+/* 2. Define your custom design system */
+@theme {
+  /* Colors */
+  --color-primary: #a78bfa;
+  --color-primary-container: #7c3aed;
+  --color-on-primary: #0a0012;
+  --color-background: #09090b;
+  --color-surface: #0c0c0f;
+  --color-surface-variant: #18181b;
+  --color-on-surface: #fafafa;
+  --color-on-surface-variant: #a1a1aa;
+  --color-outline: #52525b;
+  --color-outline-variant: #27272a;
+  --color-secondary: #71717a;
+  --color-tertiary: #34d399;
+  --color-tertiary-container: #065f46;
+  --color-error: #ef4444;
+
+  /* Typography */
+  --font-headline: "Geist", sans-serif;
+  --font-body: "Geist", sans-serif;
+}
+
+/* 3. Global fixes */
+@layer base {
+  body {
+    @apply bg-background text-on-surface font-body;
+  }
+}

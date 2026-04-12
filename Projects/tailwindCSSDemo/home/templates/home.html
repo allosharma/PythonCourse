@@ -1,19 +1,251 @@
 {% extends "base.html" %}
 
+{% block title %}Dashboard - Obsidian Audio{% endblock %}
+
 {% block content %}
-<body class="bg-gray-100 flex items-center justify-center h-screen">
-
-    <div class="bg-white p-8 rounded-2xl shadow-2xl text-center max-w-sm">
-        <h1 class="text-3xl font-bold text-blue-600 mb-4">It Works!</h1>
-        <p class="text-gray-600 mb-6">
-            If this box is centered with a shadow and the text is blue, 
-            Tailwind CSS v4 is successfully compiled.
-        </p>
-        <button class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full transition duration-300">
-            Django + Tailwind
-        </button>
-    </div>
-
-</body>
-
+<header class="fixed top-0 left-0 right-0 z-50 bg-[#09090b] border-b border-[#27272a] flex justify-between items-center w-full px-6 py-3">
+<div class="flex items-center gap-4">
+<span class="text-xl font-black tracking-tighter text-[#fafafa] font-headline">Obsidian Audio</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-[#a1a1aa]">
+<span class="material-symbols-outlined cursor-pointer hover:text-[#fafafa] transition-colors">dark_mode</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-[#fafafa] transition-colors">settings</span>
+</div>
+<img alt="User profile avatar" class="w-8 h-8 rounded-full border border-outline-variant" data-alt="User profile avatar circle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6JZvA362Xl6yiyX06vGcbvRVhVEpWqG-l2X6zu9XwB9CZKB0JoKYIDUy6O8RE9UBb4FBBSxoGV5nlQpPKFEaeTmP14g6xo4o3_iJwi72ZStaWJCj2MjlB8i5sv2voN_FapVja5Xt4PexeK8-952VJXJuY5PzdMF_1FfjnlZe9sTaYzF_r1JGPIe2YU0w5mEwFST-LKY7o05r79l9CVg4hAaZKLOIghJpOtFWf2zhpVWOdhtmD6mnktS9SBW3VBupChw49pdc88rI"/>
+</div>
+</header>
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-screen w-64 bg-[#0c0c0f] border-r border-[#27272a] pt-16 flex flex-col hidden md:flex">
+<div class="px-6 py-6 flex items-center gap-3">
+<div class="w-8 h-8 bg-primary rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary" style="font-variation-settings: 'FILL' 1;">music_note</span>
+</div>
+<div>
+<div class="text-lg font-bold text-[#fafafa] font-headline">Obsidian</div>
+<div class="text-xs text-[#a1a1aa] tracking-normal">Precision Audio</div>
+</div>
+</div>
+<div class="mt-4 flex flex-col font-geist tracking-normal text-[#a1a1aa]">
+<a class="hover:bg-[#18181b] transition-all duration-200 hover:translate-x-1 px-4 py-3 flex items-center gap-4 text-[#a1a1aa]" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span>Home</span>
+</a>
+<a class="hover:bg-[#18181b] transition-all duration-200 hover:translate-x-1 px-4 py-3 flex items-center gap-4 text-[#a1a1aa]" href="#">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+<span>Search</span>
+</a>
+<a class="text-[#fafafa] bg-[#18181b] border-l-2 border-[#a78bfa] font-semibold px-4 py-3 flex items-center gap-4" href="#">
+<span class="material-symbols-outlined" data-icon="library_music" style="font-variation-settings: 'FILL' 1;">library_music</span>
+<span>Your Library</span>
+</a>
+<a class="hover:bg-[#18181b] transition-all duration-200 hover:translate-x-1 px-4 py-3 flex items-center gap-4 text-[#a1a1aa]" href="#">
+<span class="material-symbols-outlined" data-icon="add_box">add_box</span>
+<span>Create Playlist</span>
+</a>
+</div>
+<div class="mt-auto p-6">
+<button class="w-full bg-primary text-on-primary font-bold py-3 rounded-lg hover:opacity-90 transition-opacity">
+                Upgrade to Pro
+            </button>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 pt-16 pb-32 min-h-screen px-4 md:px-8 max-w-6xl mx-auto">
+<div class="mt-8 flex flex-col lg:flex-row gap-8">
+<!-- Left Side: Now Playing Large -->
+<section class="lg:w-1/2 flex flex-col gap-6">
+<h2 class="text-xs font-bold uppercase tracking-widest text-primary">Now Playing</h2>
+<div class="relative group">
+<div class="aspect-square w-full rounded-xl overflow-hidden border border-outline-variant bg-surface-container shadow-2xl">
+<img class="w-full h-full object-cover" data-alt="High contrast geometric album cover art" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzJFr0Sp1sEvfSkjc_F3vvxfRkVOZ6raxsyBSojTw6-fl27MELvRoiUNDoJWYKGgW-vthZloCx27DXvwjw0prq-vOkyh93gB15sio2ZSlT76v880ydTGncLqHhMvYBUQnyfCtavJVa1iAi-4aYZWFua85qdfRThD_Ozc3w6gMHPWqSjubS1YoKYMWAHvakIvI1tUsELbA5U2v0FxgISa_EB_sim4Y-FlL_zzCAjv4oAAq-N8zxohy0EJ2PKriaRuESJ0WAk1YSPzc"/>
+</div>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<button class="w-16 h-16 bg-primary rounded-full flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">pause</span>
+</button>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<div>
+<h1 class="text-3xl font-black tracking-tighter text-on-surface font-headline">Midnight Protocol</h1>
+<p class="text-lg text-primary font-medium">Neural Drift</p>
+</div>
+<button class="text-primary mt-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+</div>
+<div class="mt-4">
+<div class="w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="bg-primary h-full w-2/3"></div>
+</div>
+<div class="flex justify-between text-xs text-secondary mt-2 font-mono">
+<span>02:44</span>
+<span>04:12</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Right Side: Up Next Queue -->
+<section class="lg:w-1/2 flex flex-col gap-6">
+<div class="flex items-center justify-between">
+<h2 class="text-xs font-bold uppercase tracking-widest text-secondary">Up Next</h2>
+<button class="text-xs font-bold text-primary hover:underline">Clear All</button>
+</div>
+<div class="flex flex-col gap-3">
+<!-- Queue Item 1 -->
+<div class="group flex items-center gap-4 bg-surface-container hover:bg-surface-container-high border border-outline-variant p-3 rounded-lg transition-colors cursor-pointer">
+<div class="text-secondary opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">drag_indicator</span>
+</div>
+<div class="w-12 h-12 rounded bg-surface-container-lowest overflow-hidden border border-outline-variant shrink-0">
+<img class="w-full h-full object-cover" data-alt="Abstract vibrant orange music cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSvLtzB9SIzlt-yd416UIWff0PaUBZqx1WX2l8XkD9mvHIl1C8YUCPTQMXFtgKWiRPFxMTiG5rwy20d2V3GqcLTd6icKvbfdtkVOS860Fuqfs4HZhr5iAD9Qh0eJMy4emQ48Ar69CutqljzO1itsKdnFedybWpgGx5jpGdxXxcewKbi0r2SYT26BuyAlHguCiUgNfzn7kTIh0eQUMkQJtFY5eUtQTR-jGZH4c0U1GurS7gSXUWiBHyQIc9Xr735GeeioP0DjfyCKs"/>
+</div>
+<div class="flex-grow min-w-0">
+<div class="text-[#fafafa] font-semibold truncate">Synaptic Resonance</div>
+<div class="text-[#a1a1aa] text-sm truncate">Vector Static</div>
+</div>
+<div class="text-xs font-mono text-secondary">03:55</div>
+<div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-secondary hover:text-on-surface">more_vert</span>
+</div>
+</div>
+<!-- Queue Item 2 -->
+<div class="group flex items-center gap-4 bg-surface-container hover:bg-surface-container-high border border-outline-variant p-3 rounded-lg transition-colors cursor-pointer">
+<div class="text-secondary opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">drag_indicator</span>
+</div>
+<div class="w-12 h-12 rounded bg-surface-container-lowest overflow-hidden border border-outline-variant shrink-0">
+<img class="w-full h-full object-cover" data-alt="Neon blue club lighting abstract" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBe0nZ7amMtLCQK4Zt7L8AQf1Dsswoyx2rIUjO2tP9MI2NzgPSRWc3BYVnDbyuBygp962EQp-vgZQrrcA817YNo65_hPxk75ujbcLuWOcoUT9S2tG2kx1d9sUgTQHiDFXmgl7j3i0_6m-2PWzP9HU6nT1HcHb0EqwpYGzyZfxt-TFF1-b-DGfZYbay9PjY88t0AJDFEtZHBKgAaIsMUUFloiLTJrpg3kAXCo_gIrS_ToNHe27p4UhKnExnkkj0MKtoj3M34-QiDvIU"/>
+</div>
+<div class="flex-grow min-w-0">
+<div class="text-[#fafafa] font-semibold truncate">Cybernetic Pulse</div>
+<div class="text-[#a1a1aa] text-sm truncate">The Grid</div>
+</div>
+<div class="text-xs font-mono text-secondary">04:12</div>
+<div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-secondary hover:text-on-surface">more_vert</span>
+</div>
+</div>
+<!-- Queue Item 3 -->
+<div class="group flex items-center gap-4 bg-surface-container hover:bg-surface-container-high border border-outline-variant p-3 rounded-lg transition-colors cursor-pointer">
+<div class="text-secondary opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">drag_indicator</span>
+</div>
+<div class="w-12 h-12 rounded bg-surface-container-lowest overflow-hidden border border-outline-variant shrink-0">
+<img class="w-full h-full object-cover" data-alt="Monochrome waveform graphics cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBiGg9wAyU2vCzPPUcp9eRC66g1OkMZxi4tK3H_4h9OTuQT0YBnFfStUj4BA7KUrsfG6HyLlmUThcPC2z3VnfffrrMHdOLl9y4Tyjz5TRMq8iredaF4VFMPFhFxHV2wWEUfQNd_R8Gg2qXj9-4HpOqUjc_gX4xHZ5X8WvLMb_xF5RDVMlVcHM2JyKV6a5kMlXVv9nkjVo_CEi-F9BU-W3YbftuaJrwpB-R6ArCVpL3ojwsRrj52IjLkrb3Z1rf_iNLt45QdyqH9WT4"/>
+</div>
+<div class="flex-grow min-w-0">
+<div class="text-[#fafafa] font-semibold truncate">Data Stream</div>
+<div class="text-[#a1a1aa] text-sm truncate">Buffer Overflow</div>
+</div>
+<div class="text-xs font-mono text-secondary">02:28</div>
+<div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-secondary hover:text-on-surface">more_vert</span>
+</div>
+</div>
+<!-- Queue Item 4 -->
+<div class="group flex items-center gap-4 bg-surface-container hover:bg-surface-container-high border border-outline-variant p-3 rounded-lg transition-colors cursor-pointer">
+<div class="text-secondary opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">drag_indicator</span>
+</div>
+<div class="w-12 h-12 rounded bg-surface-container-lowest overflow-hidden border border-outline-variant shrink-0">
+<img class="w-full h-full object-cover" data-alt="Jazz dark blue artistic cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyD7bZ6jC2MAwrdllpWdox1C3dUO5ycpmFfwuCXPr0BH05v3uhrrKYJmqyQQf_qUxCoENDEFMp9cZoCCRCQDTpLGiLhydrFfMgvaNBAqDNHND_vqu3AERJ1goLnd0pRQNgy8JNvzAPIzZe5IahUrfuajEfsE6LFEcT-po6IHVRma8PcJ3DmBmnO8WYn3l-qcsK4Fiy75yNzsLm3v4bCMYVHupAxIeTFJw_Db1OZNpp8zDxoQUXAqVDpYSHwAlntzjKjkoIZF96Z_s"/>
+</div>
+<div class="flex-grow min-w-0">
+<div class="text-[#fafafa] font-semibold truncate">Low-Fi Logic</div>
+<div class="text-[#a1a1aa] text-sm truncate">Bit Crusher</div>
+</div>
+<div class="text-xs font-mono text-secondary">05:10</div>
+<div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-secondary hover:text-on-surface">more_vert</span>
+</div>
+</div>
+<!-- Queue Item 5 -->
+<div class="group flex items-center gap-4 bg-surface-container hover:bg-surface-container-high border border-outline-variant p-3 rounded-lg transition-colors cursor-pointer">
+<div class="text-secondary opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">drag_indicator</span>
+</div>
+<div class="w-12 h-12 rounded bg-surface-container-lowest overflow-hidden border border-outline-variant shrink-0">
+<img class="w-full h-full object-cover" data-alt="Acoustic guitar in low light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2j_o_f2KaC6f8hWVS806A_90fZrYoeLRlDoqf4Wzwe54nmuI7-0ZndPIA5wlQJiRdHMAKib_cGVvgl258JBqgra5nRAfZPKFPXczyyboRiHE-qw6ebpZB9KKMLYMB2-8TVcMvgkIa3h9ZMB1D8VFj69qhdEWSRtSH2bdCq7mEl7atQ1IfosHtOhf-Lsqa2HMq_8Ubh_Ak7yTYGlmvEZ04at4ubJeSnkccu4cf0DEdkYDiFIDhyqG69edLs2I46tJhmbb3Smp6PU8"/>
+</div>
+<div class="flex-grow min-w-0">
+<div class="text-[#fafafa] font-semibold truncate">Organic Syntax</div>
+<div class="text-[#a1a1aa] text-sm truncate">Root Shell</div>
+</div>
+<div class="text-xs font-mono text-secondary">03:21</div>
+<div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-secondary hover:text-on-surface">more_vert</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Playback Bar -->
+<footer class="fixed bottom-0 left-0 right-0 z-50 bg-[#121215] border-t border-[#27272a] h-24 px-6 flex items-center">
+<div class="grid grid-cols-3 w-full items-center">
+<!-- Now Playing Mini -->
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-lg overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="Mini album cover preview" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCosPZ11JcsRJXEfNx9SeLetf8kxVPIgfB2ba9VOBfhrcmRMGQ0LqKr5CNz1FvjKsFe-ZNMFvi33wBHIALS9qwX56E7qbv_pO99wHi7LAKn1cmXUP9LyBg-iJQHtrrt4s07TUsJDZ2M-bZpW38XV3e3xSc88iuZRTeCgWe3he_7C2vNh9642lZjAyR3EEC5NHeOHT9QqQzasUbnkFRWN5B-nCld_RLrCcd7kOv8C7pGE1SbYAkL5cKjXdmP0-jc1_Qryqx2ed50W2E"/>
+</div>
+<div class="hidden sm:block">
+<div class="font-bold text-[#fafafa] text-sm font-headline">Midnight Protocol</div>
+<div class="text-[#a1a1aa] text-xs">Neural Drift</div>
+</div>
+</div>
+<!-- Controls -->
+<div class="flex flex-col items-center gap-2">
+<div class="flex items-center gap-8">
+<button class="text-[#a1a1aa] hover:text-[#fafafa] transition-colors">
+<span class="material-symbols-outlined text-xl">shuffle</span>
+</button>
+<button class="text-[#fafafa] hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-2xl">skip_previous</span>
+</button>
+<button class="w-12 h-12 bg-primary text-on-primary rounded-full flex items-center justify-center hover:scale-105 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">pause</span>
+</button>
+<button class="text-[#fafafa] hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-2xl">skip_next</span>
+</button>
+<button class="text-[#a1a1aa] hover:text-[#fafafa] transition-colors">
+<span class="material-symbols-outlined text-xl">repeat</span>
+</button>
+</div>
+<div class="w-full max-w-md h-1 bg-surface-container-highest rounded-full overflow-hidden hidden md:block">
+<div class="bg-primary h-full w-2/3 relative group cursor-pointer">
+<div class="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-[#fafafa] rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"></div>
+</div>
+</div>
+</div>
+<!-- Secondary Controls -->
+<div class="flex items-center justify-end gap-6 text-[#a1a1aa]">
+<button class="hover:text-primary transition-colors">
+<span class="material-symbols-outlined">lyrics</span>
+</button>
+<button class="text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">queue_music</span>
+</button>
+<button class="hover:text-[#fafafa] transition-colors">
+<span class="material-symbols-outlined">devices</span>
+</button>
+<div class="flex items-center gap-2 w-32 group">
+<span class="material-symbols-outlined text-lg">volume_up</span>
+<div class="flex-grow h-1 bg-surface-container-highest rounded-full">
+<div class="h-full w-3/4 bg-[#a1a1aa] group-hover:bg-primary transition-colors rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+</footer>
+<!-- FAB Contextual (Add to current Queue) -->
+<div class="fixed bottom-28 right-8 z-40 hidden md:block">
+<button class="bg-tertiary-container text-on-tertiary-container flex items-center gap-2 px-6 py-3 rounded-full font-bold shadow-xl border border-tertiary hover:translate-y-[-2px] transition-all">
+<span class="material-symbols-outlined">add</span>
+<span>Add Track</span>
+</button>
+</div>
 {% endblock %}

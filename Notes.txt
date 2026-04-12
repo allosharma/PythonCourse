@@ -304,3 +304,61 @@ Create an EC2 instance
 
 
 
+Webhooks:
+A webhook is a lightweight, event-driven HTTP callback that allows one application to automatically send real-time data to another when a specific event occurs. Often called "Reverse APIs," webhooks eliminate the need for constant polling, pushing data instantly via HTTP POST requests to a specified URL.
+Example lets say you are using razorpay payment api and when transaction is completed successfully then you can set a webhook which will inform you once th transaction is completed (trigger) using reverse api.
+
+
+
+How to use tailwind css in the Django project
+1. First you have to download the standalone tailwind file: https://github.com/tailwindlabs/tailwindcss/releases/latest
+2. Then move and rename it to a good location like in our case: "C:\tools\tailwind.exe"
+3. Then add this path to the environment variable: "C:\tools\"
+4. To test whether the env variable is set properly you can run: tailwind --help
+5. In the Django project, you have to create a "static" folder in the root folder and add two subfolder css > output.css and src > main.css.
+6. To include this static folder in the project you have to include following in the setting file:
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+7. Since the standalone file size is 125mb, you have to run a command so that we only include required components form the main file into the output.css file: tailwind -i ./static/src/input.css -o ./static/css/output.css --watch
+While you are changing anything in the css file everything gets recorded in the output.css file. so during the deployment you will only have to upload less than 1 mb file as css file for using tailwind css components.
+Remember to keep this command running while you are working on the project as any new changes is recorded in the output file at the time of dev. so you will need two terminals while dev, first will run the server and the other will run this command.
+8. once you are done with the project and you want to deploy it just remove "--watch" from above command to make it the final deployable file.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

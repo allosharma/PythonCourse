@@ -7,7 +7,7 @@ from accounts.manager import UserManager
 
 # AbstractUser model will be inherited by the CustomUser model to add additional fields to the User.
 class CustomUser(AbstractUser):
-    # By adding username = None, and phone_number as unique=true, we can ensure that the phone_number field is unique. And wile authenticating, we can use the phone_number field to authenticate the user.
+    # By adding username = None, and phone_number as unique=true, we can ensure that the phone_number field is unique. And while authenticating, we can use the phone_number field to authenticate the user.
     username = None
     phone_number = models.CharField(max_length=12, unique=True)
     profile_image = models.ImageField(upload_to='profile_images/', null=True, blank=True)
